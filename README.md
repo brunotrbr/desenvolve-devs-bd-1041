@@ -1,2 +1,2 @@
-# template-ada
-Repositório Template para turmas da Ada
+# DesenvolveDevs - O Boticário/2023 - Turma 1041
+Material do curso de Banco de Dados PostgreSQL
