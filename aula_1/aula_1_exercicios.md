@@ -4,7 +4,7 @@
 - Instalar o banco de dados na máquina (instalação local ou container)
 
 ## A1-E2 
-- Instalar o PGAdmin 4
+- Instalar o DBeaver Community (ou usar a versão pró, quem já tem)
 
 ## A1-E3
-- Conectar no banco de dados recém criado
+- Conectar no banco de dados recém criado/instalado

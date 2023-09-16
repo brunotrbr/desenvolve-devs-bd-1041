@@ -224,16 +224,16 @@ Existem pelo menos 2 opções de SGBDs para conectar em um banco de dados Postgr
 
 São semelhantes, porém o PGAdmin é específico para PostgreSQL, enquanto o DBeaver pode ser utilizado com outros bancos de dados (SQL Server, Oracle SQL, etc)
 
-Nós vamos usar a solução nativa do PostgreSQL, o PGAdmin.
+Nós vamos usar o DBeaver.
 
-Foi disponibilizado no drive do LMS um vídeo demonstrando como conectar no banco de dados usando o PGAdmin. Funciona em qualquer sistema operacional.
+Foi disponibilizado no drive compartilhado do google um vídeo demonstrando como conectar no banco de dados usando o DBeaver. Funciona em qualquer sistema operacional.
 
-- conectar_pgadmin_localhost.mp4
+- conectar_dbeaver_localhost.mp4
 
 ## Exercícios
-- Instalar o banco de dados na máquina
-- Instalar o PGAdmin 4
-- Conectar no banco de dados
+- Instalar o banco de dados na máquina (ou rodar no docker)
+- Instalar o DBeaver
+- Conectar no banco de dados usando o DBeaver.
 
 &nbsp;
 
@@ -244,5 +244,5 @@ Tem alguma sugestão para melhorar o andamento das aulas? Por favor preencha o f
 https://forms.gle/Yg6pSQFaoSYtZ4nG8
 
 
-Não deixe a sugestão de melhorias para depois! Compartilhe antes, que corrigimos mais rápido. 
+Não deixe a sugestão de melhorias para depois! Compartilhe antes, que corrijo o mais rápido possível.
 
