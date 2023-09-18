@@ -1,185 +1,328 @@
-#  SQL
 
-Bom, existem quatro categorias de comandos de SQL, que vamos ver em maior ou menor grau hoje e nas próximas aulas.
 
-&nbsp;
+# MER: Modelo Entidade Relacionamento
 
-## DDL - Data Definition Language
+## Como traduzir requisitos de um problema do mundo real para um modelo conceitual?
 
-Tem a linguagem de definição de dados (em inglês, DDL), que são os comandos utilizados para definir a estrutura do banco de dados. A DDL inclui os comandos CREATE, ALTER, DROP, TRUNCATE e RENAME:
-
-    - CREATE: usado para criar tabelas, view, index ou outros objetos do banco de dados.
-
-    - ALTER:  Usado para modificar a estrutura de um objeto do banco de dados.
-
-    - DROP: Usado para remover a estrutura de um objeto do banco de dados.
-
-    - TRUNCATE: Usado para remover todos os dados de uma tabela.
-
-    - RENAME: Usado para modificar o nome de um objeto existente no banco de dados.
+Como descrever um banco de dados? Temos um cenário real, mas como podemos modelar isso em um banco de dados utilizável?
 
 &nbsp;
 
-## DML - Data Manipulation Language
+Utilizamos o **Modelo Entidade-Relacionamento (MER)**.
 
-Tem a linguagem de manipulação de dados (em inglês, DML), que são os comandos utilizados para manipular os dados armazenados no banco de dados. A DML inclui os comandos SELECT, INSERT, UPDATE e DELETE.
-
-    - SELECT: Usado para recuperar dados de uma ou mais tabelas.
-    
-    - INSERT: Usado para adicionar dados em uma tabela.
-    
-    - UPDATE: Usado para atualizar dados previamente inseridos em uma tabela.
-    
-    - DELETE: Usado para remover dados de uma tabela.
-
-    - MERGE: Usado para combinar dados de duas tabelas em uma tabela única.
+Serve para descrever os conceitos e as restrições básicas dos dados para nossa aplicação.
 
 &nbsp;
 
-## DCL - Data Control Language
-
-Tem a linguagem de controle dos dados (em inglês, DCL), que são os comandos utilizados para controlar o acesso ao banco de dados. A DCL inclui os comandos GRANT, REVOKE e DENY.
-
-    - GRANT: Usado para dar permissões a um usuário para acessar objetos do banco de dados.
-
-    - REVOKE Usado para remover permissões dadas a um usuário para acessar objetos do banco de dados.
-
-    - DENY: Usado para negar acesso a objetos do banco de dados a um usuário.
+> Ex: Cadastro de usuários não pode aceitar CPFs repetidos. Nosso banco de dados usa **chave_primária** ou cláusula **unique** para garantir que os valores serão únicos.
 
 &nbsp;
 
-## DQL - Data Query Language
+## Modelo Entidade-Relacionamento
 
-Por fim temos a linguagem de consulta dos dados (em inglês, DQL), que são os comandos utilizados para acessar o banco de dados e recuperar valores. A DQL inclui o comando SELECT.
-
-    - SELECT: Usado para recuperar os dados do banco de dados.
+Modelo conceitual utilizado para descrever os objetos (**as entidades**), suas características (**os atributos**) e como eles se relacionam entre si (**os relacionamentos**), dado um determinado cenário do mundo real.
 
 &nbsp;
 
+> Obs: Nem sempre precisamos modelar todo o cenário. Podemos ir modelando de acordo com a nossa necessidade.
 
-# CRUD em SQL
+&nbsp;
 
-CRUD é a sigla em inglês para Create, Read, Update, Delete.
+### Entidades
+Entidade é uma coisa ou pessoa, concreta (física) ou abstrata (lógica), e que pode ser individualmente identificada. 
 
-São as principais ações que fazemos no banco de dados SQL quando não somos os administradores do banco.
+&nbsp;
+
+Observem a imagem abaixo:
+
+<img src=./imagens/entidades.png width=400>
+
+Figura 1: Entidades
+
+Nela podemos ver:
+- *Entidade*: a pessoa que estamos identificando
+- *Tipo de entidade*: No processo de descrição, não há interesse em descrever cada entidade individualmente, e sim cada classe de elementos daquela entidade (os atributos, as restrições de integridade, etc)
+- *Conjunto de entidades*: Coleção de entidades de um mesmo tipo existentes em um dado momento
+
+&nbsp;
+
+**Entidades físicas** são aquelas realmente tangíveis, existentes e visíveis no mundo real.
+
+Ex: Um cliente (uma pessoa, uma empresa, etc).
+
+&nbsp;
+
+**Entidades lógicas** são aquelas que existem em função da interação entre/com entidades físicas, mas não são objetos físicos no mundo real.
+
+Ex: Uma venda realizada em loja.
+
+&nbsp;
+
+Entidades são nomeadas com substativos concretos ou abstratos que representam de forma clara sua função. 
+
+Ex: Cliente, Produto, Venda, Turma.
+
+&nbsp;
+
+As entidades podem ser classificadas de acordo com o motivo de sua existência:
+
+- **Entidades Fortes** são aquelas que existem independente de outras entidades. Ou seja, por si só elas existem. 
+  
+  Em um sistema de vendas, por exemplo, a entidade **Produto** independe de qualquer outra entidade para existir.
+
+- **Entidades Fracas** são aquelas de dependem de outras entidades para existir pois, individualmente, não fazem sentido existir.
+  
+  No sistema de vendas, por exemplo, a entidade **Venda** depende da entidade *Produto*, pois não existe uma venda sem itens.
+
+- **Entidades Associativas** surgem quando há a necessidade de associar uma entidade a um relacionamento existente. Na modelagem entidade-relacionamento, **não é possível que um relacionamento seja associado a uma entidade**, então tornamos esse relacionamento uma entidade associativa, que poderá se relacionar com outras entidades.
+  
+  No nosso sistema de vendas, por exemplo, vamos considerar que a empresa passou a entregar brindes para clientes que comprassem um determinado produto. A entidade **Brinde** não está relacionada nem com a **Venda** nem com o **Produto** em si, e sim com o item da venda (ou seja, com o relacionamento entre Venda e Produto). Como não podemos associar a entidade Brinde com um relacionamento, vamos criar a entidade associativa chamada **Item da venda**, que contém os atributos identificadores das entidades Venda e Produto, além de informações como quantidade, etc. A partir dai podemos relacionar o **Brinde** com o **Item da Venda**, indicando que aquele prêmio foi dado ao cliente por comprar aquele produto em específico.
 
 
 &nbsp;
 
-## C - Create
-É usado tanto para criar tabelas, views e outros objetos do banco quanto para inserir dados.
-
-
-### Sintaxe
-```sql
-CREATE TABLE <qualificador> <nome_da_tabela>(
-    <nome_da_coluna> <tipo(Date, int, varchar, etc)> <opções (NOT NULL, UNIQUE, DEFAULT, etc)>,
-    ...
-    ...
-);
-```
-
-```sql
-INSERT INTO <nome_da_tabela> (<nome_das_colunas>) VALUES (<valores>)
-```
+### Atributos
+É uma propriedade ou característica que descreve as entidades, além de restrições destes dados quando aplicáveis.
 
 &nbsp;
 
-### Exemplos:
-```sql
-CREATE TABLE IF NOT EXISTS alunos
-(
-    id integer NOT NULL,
-    nome character varying(255) NOT NULL,
-    data_de_nascimento date NOT NULL,
-    turma character varying(15) DEFAULT 'A1'
-);
-```
+Observem a imagem abaixo, novamente:
+
+<img src=./imagens/entidades.png width=400>
+
+Figura 2: Entidades
+
+A cor da roupa, o sexo, o humor, são exemplos de atributos.
 
 &nbsp;
 
+Entidade **Pessoa**:
+- Possui como atributos o **Nome**, a **Idade**, a **Altura** e, pensando no Brasil, um **CPF**.
 
-```sql
-INSERT INTO alunos (id,nome,data_de_nascimento, turma)
-VALUES
- (1, 'João', '2000-12-03', 'B3'),
- (2, 'Maria', '1995-04-03', 'B2'),
- (3, 'Medge', '1998-10-03', 'B3'),
- (4, 'Carla', '2001-03-04', 'B2'),
- (5, 'Aline', '1995-04-02', 'B3'),
- (6, 'João Carlos', '1986-04-03', 'B2'),
- (7, 'Enzo', '2010-10-10', 'B3'),
- (8, 'Augusto', '1978-07-07', 'B2'),
- (9, 'Fernando', '1986-08-09', 'B3'),
- (10, 'Júlia', '2002-06-04', 'B2'),
- (11, 'Karina', '2005-06-04', 'B3'),
- (12, 'Marcos', '1982-05-06', 'B2'),
- (13, 'Sebastião', '1974-03-02', 'B3'),
- (14, 'Maria da silva', '1999-05-01', 'B2'),
- (15, 'Ana', '2002-07-06', 'B3'),
-;
-```
+- Os três primeiros podem ser modificados, enquanto o CPF não pode.
+  
+- Nesse caso, existe essa restrição de que o CPF não se altera na entidade Pessoa.
 
 &nbsp;
 
-## R - Read
-É usado para buscar valores no banco de dados
+Os atributos podem ser classificados quanto à sua função:
 
-### Sintaxe
-```sql
-SELECT <nome_das_colunas> FROM <nome_da_tabela> <restrições, junções, agrupamentos, etc>;
-```
-
-### Exemplos
-```sql
-SELECT nome FROM alunos;
-SELECT nome, turma FROM alunos;
-SELECT * FROM alunos;
-SELECT * FROM alunos WHERE turma = 'B2';
-SELECT * FROM alunos WHERE turma = 'B2' AND data_de_nascimento > '2000-01-01';
-SELECT * FROM alunos WHERE turma = 'B2' OR data_de_nascimento > '2000-01-01';
-SELECT * FROM alunos WHERE turma = 'B1' OR data_de_nascimento > '2000-01-01' ORDER BY nome;
-```
-
-## U - Update
-É usado para atualizar valores no banco de dados
-
-### Sintaxe
-```sql
-UPDATE <nome_da_tabela> SET <nome_da_coluna> = <valor> <restrições, junções, agrupamentos, etc>;
-```
-
-### Exemplos
-```sql
-UPDATE alunos SET turma = '1A' WHERE id = 1
-UPDATE alunos SET turma = '1A' WHERE id = 1 AND nome = 'João'
-```
+- **Descritivos** representam características intrínsecas de uma entidade, como nome ou cor.
+  
+- **Nominativos** além de serem descritivos, também tem a função de definir e identificar um objeto, como por exemplo código, número, etc.
+  
+- **Referenciais** representam a ligação de uma entidade com outra em um relacionamento. Por exemplo, uma venda possui o CPF do cliente, que a relaciona com a entidade **Cliente**.
 
 &nbsp;
 
-# D -> "Delete" == Deletar
+Os atributos podem ser classificados quanto ao seu tipo:
 
-É usado para remover linhas/registros do banco de dados.
-
-```sql
-DELETE FROM <nome_da_tabela> <restrições, junções, agrupamentos, etc>;
-```
+- **Simples**: Quando um único atributo define uma característica da entidade. Nome ou Altura são atributos simples.
+  
+- **Compostos**: Quando são usados vários atributos para definir uma informação da entidade. Endereço, por exemplo, pode ser composto por rua, número, bairro, CEP, etc.
 
 &nbsp;
 
-### Exemplos
-```sql
-DELETE FROM alunos WHERE id = 1;
-DELETE FROM alunos WHERE id = 1 OR nome = 'João';
-```
+Os atributos podem ser classificados quanto ao tipo de valor que armazenam:
+
+- **Valor único** são atributos que possui um único valor para uma entidade. A idade, por exemplo, é um atributo de valor único pois, mesmo que se altere, só tem um único valor.
+  
+- **Multivalorado** são atributos que possuem um conjunto de valores para uma entidade. Uma Pessoa pode ter como atributo **formacao acadêmica**, e esse atributo pode possuir nenhum valor, um valor ou mais de um valor caso a pessoa tenha 2 graduação ou mais, ou pós graduação, etc. Atributos multivalorados podem ter um **limite mínimo** e um **limite máximo** para restringir o número de valores permitidos.
 
 &nbsp;
 
-Como vocês podem ter visto, nós definimos alguns tipos de dados (como character varying, integer, date, etc)
+Dois ou mais valores de atributos podem estar relacionados (Ex: data de nascimento e idade). Nesse caso, os atributos também podem ser classificados quanto a forma de armazenamento:
 
-Mas como eu sei qual é o melhor tipo pra armazenar no banco de dados? Uso integer? big int? small int? O que é o numeric, e por ai vai.
+- **Armazenados**: Quando um atributo possui um valor. Por exemplo, a **Data de Nascimento** de uma pessoa.
+  
+- **Derivados**: Quando seus valores são derivados de outros atributos. O atributo **Idade** de uma pessoa pode ser derivado do atributo **Data de Nascimento** por exemplo.
 
-Nesse caso, acessem esse endereço aqui embaixo, que vai ter os tipos suportados atualmente no postgres 15
+&nbsp;
 
-> https://www.postgresql.org/docs/current/datatype.html
+<img src=./imagens/entidades_e_atributos.png width=450>
 
+Figura 3: Entidades e Atributos
+
+&nbsp;
+
+#### Chave primária
+
+Um atributo que identifica a entidade em um domínio, e não pode se repetir, é chamado de **Chave Primária**. 
+
+Ex: Cadastro de clientes, na entidade **Cliente** esse atributo poderia ser o **CPF**.
+
+&nbsp;
+
+#### Chave estrangeira
+
+Os atributos referenciais são chamados de **Chave Estrangeira**, e normalmente estão ligados à **chave primária** da outra entidade.
+
+Ex: Sistema de vendas, a entidade **Cliente** possui como chave primária o atributo CPF, e a entidade **Venda** possui um atributo chamado **CPF do cliente**, que seria uma **chave estrangeira** relacionada com o campo CPF da entidade Cliente.
+
+&nbsp;
+
+Observem a imagem abaixo:
+
+<img src=./imagens/chave_primaria_e_estrangeira.jpg width=400>
+
+Figura 4: Chave primária e estrangeira
+
+&nbsp;
+
+Temos a tabela (uma entidade) Pessoa, a tabela Automóvel (uma entidade) e a tabela Propriedade.
+
+Na tabela **Pessoa**, o atributo *Identidade* é uma **chave primária**.
+
+Na tabela **Automóvel**, o atributo *Placa* é uma **chave primária**.
+
+Na tabela **Propriedade**, juntamos a *chave primária Placa* e a *chave primária Identidade*, para compor a chave primária da tabela Propriedade.
+
+Vendo a partir da tabela **Propriedade**, Placa e Identidade são chaves estrangeiras, pois vieram de outras tabelas (onde são chaves primárias).
+
+Os dois campos em conjunto são a chave primária da tabela Propriedade, então **não pode** ter duas linhas na tabela com os valores **A1/P1** ou **A2/P2**, por exemplo.
+
+&nbsp;
+
+### Relacionamentos
+
+Relacionamentos são uma correspondência entre 2 ou mais entidades, não necessariamente distintas. Cada entidade desempenha um papel no relacionamento.
+
+&nbsp;
+
+Considerem a frase abaixo:
+
+> João trabalha na universidade PUCRS.
+
+Ela poderia ser reescrita como:
+
+> A universidade PUCRS emprega o João.
+
+Neste caso, as entidades são: 
+
+> João e PUCRS
+
+E os papéis são:
+
+> João: empregado
+>
+> PUCRS: empregador
+
+&nbsp;
+
+A imagem abaixo poderia representar o relacionamento entre o João e a PUCRS, por exemplo.
+
+<img src=./imagens/relacionamentos.png width=300>
+
+Figura 5: Relacionamentos
+
+&nbsp;
+
+#### Cardinalidade
+Aponta a quantidade mínima e a quantidade máxima de objetos envolvidos em cada lado do relacionamento. É a *restrição de integridade* dos relacionamentos, e **obrigatoriamente** deve ser incluída na modelagem.
+
+Os relacionamentos podem ser classificados de três formas, de acordo com a Cardinalidade:
+
+- **1..1 (um para um)** onde cada uma das entidades envolvidas referenciam obrigatoriamente apenas uma unidade da outra. 
+  
+  Em um banco de dados de currículos, por exemplo, cada candidato pode ter somente um currículo na base. Ao mesmo tempo, cada currículo pertence a um único usuário cadastrado.
+  
+- **1..n ou 1..\* (um para muitos)** onde uma das entidades pode referenciar várias unidades da outra, porem do outro lado cada uma das várias unidades referenciadas só podem estar ligadas em uma única unidade da outra entidade. 
+  
+  Em um sistema de plano de saúde, um usuário pode ter vários dependentes, mas cada dependente pode estar ligado a somente um usuário principal.
+  
+- **n..n ou \*..\* (muitos para muitos)** onde ambos os lados podem referenciar múltiplas unidades da outra.
+  
+  Em um sistema de biblioteca, um título pode ser escrito por vários autores, ao mesmo tempo que um autor pode escrever vários títulos.
+
+&nbsp;
+
+Em geral os relacionamentos são nomeados com **verbos** ou **expressões** que representam a forma como as entidades interagem ou a ação que uma exerce sobre a outra. Essa nomenclatura pode variar de acordo com a direção em que se lê o relacionamento, conforme vimos na frase "João trabalha na universidade PUCRS".
+
+<img src=./imagens/relacionamentos.png width=300>
+
+Figura 6: Relacionamentos
+
+&nbsp;
+
+### Diagrama Entidade-Relacionamento
+
+Modelo entidade-relacionamento: um modelo conceitual
+
+Diagrama Entidade-Relacionamento: sua representação gráfica.
+
+
+Utilizamos o diagrama para representar o modelo conceitual através de símbolos, para auxiliar no desenvolvimento do sistema.
+
+Permite criar uma linguagem comum entre o analista responsável por levantar os requisitos e os desenvolvedores responsáveis por implementar o que foi modelado, facilitando a comunicação da equipe.
+
+&nbsp;
+
+Podemos escrever o diagrama entidade-relacionamento de diversas formas diferentes:
+
+&nbsp;
+
+<img src=./imagens/diagrama_1_imobiliaria.png width=300>
+
+Figura 7: Diagrama de um sistema de imobiliária
+
+&nbsp;
+
+<img src=./imagens/diagrama_2_vendas.png width=300>
+
+Figura 8: Diagrama de uma venda
+
+&nbsp;
+
+<img src=./imagens/diagrama_3_com_atributos.png width=300>
+
+Figura 9: Diagrama com atributos em sua notação original
+
+&nbsp;
+
+<img src=./imagens/diagrama_4_classes.png width=300>
+
+Figura 10: Diagrama com atributos em sua notação mais atual (diagrama de classes)
+
+&nbsp;
+
+### Ferramentas utilizadas para desenhar os diagramas
+
+Softwares como StarUML BrModelo ou o Draw IO.
+
+https://staruml.io/
+
+http://www.sis4.com/brmodelo/
+
+https://www.brmodeloweb.com/lang/pt-br/index.html
+
+https://www.diagrams.net/
+
+&nbsp;
+
+## Modelando nosso primeiro banco de dados
+
+A empresa ACME registra os funcionários, departamentos e projetos de uma empresa. Após a fase de levantamento e análise de requisitos, chegamos na seguinte descrição:
+
+&nbsp;
+
+> A empresa é organizada em departamentos. Cada departamento tem um nome exclusivo, um número exclusivo e um funcionário em particular que o gerencia. Registramos a data inicial em que esse funcionário começou a gerenciar o departamento. Um departamento pode ter vários locais.
+> 
+> Um departamento controla uma série de projetos, cada um deles com um nome exclusivo, um número exclusivo e um local exclusivo.
+> 
+> Armazenamos o nome, número do Cadastro de Pessoa Física, endereço, salário, sexo (gênero) e data de nascimento de cada funcionário. Um funcionário é designado para um departamento, mas pode trabalhar em vários projetos, que não necessariamente são controlados pelo mesmo departamento. Registramos o número atual de horas por semana que um funcionário trabalha em cada projeto. Também registramos o supervisor direto de cada funcionário (que é outro funcionário).
+> 
+> Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário.
+
+&nbsp;
+
+Iniciamos a modelagem da empresa ACME acima em aula, resultando na seguinte entidade e seus atributos.
+
+<img src=./imagens/diagrama_empresa_acme.jpg width=400>
+
+Figura 11: Diagrama da empresa ACME
+
+&nbsp;
+
+A partir disto, recrie o diagrama no site https://www.diagrams.net/ (ou outro de sua escolha) e construa os relacionamentos, incluindo as cardinalidades.
+
+Obs: Inclui o projeto que estávamos usando em aula, para vocês seguirem do ponto onde paramos. O nome é **diagrama_empresa_acme_diagrams_net.drawio**
