@@ -1,5 +1,3 @@
-
-
 # MER: Modelo Entidade Relacionamento
 
 ## Como traduzir requisitos de um problema do mundo real para um modelo conceitual?
@@ -35,7 +33,7 @@ Entidade é uma coisa ou pessoa, concreta (física) ou abstrata (lógica), e que
 
 Observem a imagem abaixo:
 
-<img src=./imagens/entidades.png width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/entidades.png width=400>
 
 Figura 1: Entidades
 
@@ -88,7 +86,7 @@ As entidades podem ser classificadas de acordo com o motivo de sua existência:
 
 Observem a imagem abaixo, novamente:
 
-<img src=./imagens/entidades.png width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/entidades.png width=400>
 
 Figura 2: Entidades
 
@@ -139,7 +137,7 @@ Dois ou mais valores de atributos podem estar relacionados (Ex: data de nascimen
 
 &nbsp;
 
-<img src=./imagens/entidades_e_atributos.png width=450>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/entidades_e_atributos.png width=450>
 
 Figura 3: Entidades e Atributos
 
@@ -163,7 +161,7 @@ Ex: Sistema de vendas, a entidade **Cliente** possui como chave primária o atri
 
 Observem a imagem abaixo:
 
-<img src=./imagens/chave_primaria_e_estrangeira.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/chave_primaria_e_estrangeira.jpg width=400>
 
 Figura 4: Chave primária e estrangeira
 
@@ -211,7 +209,7 @@ E os papéis são:
 
 A imagem abaixo poderia representar o relacionamento entre o João e a PUCRS, por exemplo.
 
-<img src=./imagens/relacionamentos.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/relacionamentos.png width=300>
 
 Figura 5: Relacionamentos
 
@@ -238,7 +236,7 @@ Os relacionamentos podem ser classificados de três formas, de acordo com a Card
 
 Em geral os relacionamentos são nomeados com **verbos** ou **expressões** que representam a forma como as entidades interagem ou a ação que uma exerce sobre a outra. Essa nomenclatura pode variar de acordo com a direção em que se lê o relacionamento, conforme vimos na frase "João trabalha na universidade PUCRS".
 
-<img src=./imagens/relacionamentos.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/relacionamentos.png width=300>
 
 Figura 6: Relacionamentos
 
@@ -261,25 +259,25 @@ Podemos escrever o diagrama entidade-relacionamento de diversas formas diferente
 
 &nbsp;
 
-<img src=./imagens/diagrama_1_imobiliaria.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_1_imobiliaria.png width=300>
 
 Figura 7: Diagrama de um sistema de imobiliária
 
 &nbsp;
 
-<img src=./imagens/diagrama_2_vendas.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_2_vendas.png width=300>
 
 Figura 8: Diagrama de uma venda
 
 &nbsp;
 
-<img src=./imagens/diagrama_3_com_atributos.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_3_com_atributos.png width=300>
 
 Figura 9: Diagrama com atributos em sua notação original
 
 &nbsp;
 
-<img src=./imagens/diagrama_4_classes.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_4_classes.png width=300>
 
 Figura 10: Diagrama com atributos em sua notação mais atual (diagrama de classes)
 
@@ -312,17 +310,3 @@ A empresa ACME registra os funcionários, departamentos e projetos de uma empres
 > Armazenamos o nome, número do Cadastro de Pessoa Física, endereço, salário, sexo (gênero) e data de nascimento de cada funcionário. Um funcionário é designado para um departamento, mas pode trabalhar em vários projetos, que não necessariamente são controlados pelo mesmo departamento. Registramos o número atual de horas por semana que um funcionário trabalha em cada projeto. Também registramos o supervisor direto de cada funcionário (que é outro funcionário).
 > 
 > Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário.
-
-&nbsp;
-
-Iniciamos a modelagem da empresa ACME acima em aula, resultando na seguinte entidade e seus atributos.
-
-<img src=./imagens/diagrama_empresa_acme.jpg width=400>
-
-Figura 11: Diagrama da empresa ACME
-
-&nbsp;
-
-A partir disto, recrie o diagrama no site https://www.diagrams.net/ (ou outro de sua escolha) e construa os relacionamentos, incluindo as cardinalidades.
-
-Obs: Inclui o projeto que estávamos usando em aula, para vocês seguirem do ponto onde paramos. O nome é **diagrama_empresa_acme_diagrams_net.drawio**
