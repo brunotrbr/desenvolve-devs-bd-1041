@@ -12,11 +12,11 @@ Casos simples
 
 &nbsp;
 
-<img src=./imagens/01_identificador_simples.jpg width=200>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/01_identificador_simples.jpg width=200>
 
 Figura 1: Identificador simples
 
-<img src=./imagens/02_identificador_simples.jpg width=100>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/02_identificador_simples.jpg width=100>
 
 Figura 2: Identificador simples com diagrama de classes
 
@@ -28,7 +28,7 @@ Casos complexos
     
     Ex: Almoxarifado de uma empresa de ferragens, que armazena o estoque em prateleiras. Existem **n** corredores no almoxarifado, com **m** prateleiras. Para identificar onde está um determinado produto, é necessário saber o número do corredor, e o número da prateleira que está.
 
-<img src=./imagens/03_identificador_composto.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/03_identificador_composto.jpg width=200>
 
 Figura 3: Identificador composto
 
@@ -42,7 +42,7 @@ Normalmente, uma ocorrência de relacionamento diferencia-se das demais do mesmo
 
 Ex: Casamento. Em geral, não deveriam existir 2 relacionamentos para o mesmo homem e para a mesma mulher.
 
-<img src=./imagens/04_identificador_de_relacionamento_1.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/04_identificador_de_relacionamento_1.jpg width=300>
 
 Figura 4: Identificador de relacionamento - casamento
 
@@ -56,13 +56,11 @@ Neste caso, é necessário distinguir uma consulta de outra (ou seja, um relacio
 
 Na consulta médica, em específico, utilizamos a data/hora da consulta para realizar essa diferenciação.
 
-<img src=./imagens/04_identificador_de_relacionamento_2.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/04_identificador_de_relacionamento_2.jpg width=300>
 
 Figura 4: Identificador de relacionamento - consulta médica
 
 &nbsp;
-
-----
 
 ## Entidades associativas
 
@@ -82,7 +80,7 @@ A *entidade associativa* serve para que o relacionamento seja visto também como
 
 No diagrama entidade-relacionamento, adicionamos um retângulo em torno do relacionamento, como pode ser visto na imagem abaixo.
 
-<img src=./imagens/05_entidades_associativas.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/05_entidades_associativas.jpg width=300>
 
 Figura 5: Entidade associativa - consulta médica
 
@@ -92,7 +90,7 @@ OBS:
 
 Caso não quiséssemos utilizar o conceito de *entidade associativa*, poderíamos transformar **consulta** em uma entidade nova, e associar ela com **medicamento**, conforme pode ser visto abaixo.
 
-<img src=./imagens/06_alternativa_entidades_associativas.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/06_alternativa_entidades_associativas.jpg width=300>
 
 Figura 6: Alternativa para entidade associativa - consulta médica
 
@@ -106,7 +104,7 @@ Propriedades podem ser atribuídas a entidades através do conceito de *generali
 
 Para representar generalizações, utilizamos um *triângulo*, conforme mostrado na figura abaixo. Nela expressamos a entidade **cliente**, dividida em dois subconjuntos, as entidades **pessoa física** e **pessoa jurídica**, cada uma com seus atributos próprios.
 
-<img src=./imagens/07_generalizacao_especializacao.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/07_generalizacao_especializacao.jpg width=300>
 
 Figura 7: Generalização e especialização
 
@@ -130,7 +128,7 @@ Distribuição de produtos nas cidades da sua região.
 
 Existe o relacionamento chamado **distribuição**, onde participam três entidades: a **cidade** onde o produto vai ser distribuído, o **distribuidor** do produto e **produto** a ser distribuído.
 
-<img src=./imagens/08_rel_grau_n_distribuicao_1.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/08_rel_grau_n_distribuicao_1.jpg width=300>
 
 Figura 8: Relacionamentos de grau N - Distribuição
 
@@ -138,7 +136,7 @@ Figura 8: Relacionamentos de grau N - Distribuição
 
 Com relação a cardinalidade, ela refere-se aos **pares de entidades**, ou seja, dadas as entidades A, B e C participantes do relacionamento R, a cardinalidade máxima de A e B dentro de R indica quantas ocorrências de C podem estar associadas a um par de ocorrências A e B.
 
-<img src=./imagens/09_rel_grau_n_distribuicao_2.jpg width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/09_rel_grau_n_distribuicao_2.jpg width=300>
 
 Figura 9: Relacionamentos de grau N - Distribuição - cardinalidade
 
@@ -152,7 +150,6 @@ O "n" próximo a **cidade** indica que um distribuidor pode distribuir um produt
 
 &nbsp;
 
-----
 
 # Modelo lógico / relacional
 
@@ -166,7 +163,7 @@ Uma tabela é um conjunto não ordenado de **linhas** (ou **tuplas**). Cada linh
 
 Cada campo é identificado por um **nome de campo** (ou **nome do atributo**), e o conjunto de campos das linhas de uma tabela que possuem o mesmo nome formam uma **coluna**.
 
-<img src=./imagens/10_tabelas.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/10_tabelas.jpg width=400>
 
 Figura 10: Tabelas
 
@@ -193,7 +190,7 @@ Os principais tipos de chaves são a chave **primária**, chave **estrangeira** 
 
 Na figura abaixo, podemos identificar a tabela **Dependente** que possui uma **chave primária composta**, com as colunas **CodigoEmp** e **NoDepen**.
 
-<img src=./imagens/11_chave_primaria_composta.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/11_chave_primaria_composta.jpg width=400>
 
 Figura 11: Chave primária composta
 
@@ -205,7 +202,7 @@ Figura 11: Chave primária composta
 
 Nas tabelas abaixo, o **CodigoDepto** é a *chave primária* da tabela **Dept**, e chave estrangeira na tabela **Emp** (Empregados), pois indica o departamento que cada empregado está alocado.
 
-<img src=./imagens/12_chave_estrangeira.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/12_chave_estrangeira.jpg width=400>
 
 Figura 12: Chave estrangeira
 
@@ -227,7 +224,7 @@ Uma chave estrangeira pode associar a própria tabela, ou seja, a própria chave
 
 A tabela **Emp** possui como chave primária o código do empregado **CodigoEmp**, e uma coluna indicando quem é o gerente daquele empregado (a coluna **CodigoEmpGerente**). Reparem que o gerente é um empregado existente na própria tabela **Emp**. Ou seja, a chave estrangeira está referenciando a chave primária da própria tabela.
 
-<img src=./imagens/13_chave_estrangeira_mesma_tabela.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/13_chave_estrangeira_mesma_tabela.jpg width=400>
 
 Figura 13: Chave estrangeira na mesma tabela
 
@@ -239,7 +236,7 @@ Quando temos, em uma tabela, mais de uma coluna ou combinações de colunas que 
 
 Na tabela **Emp** abaixo, tanto o código do empregado quanto o CIC podem ser utilizados como chave primária.
 
-<img src=./imagens/14_chave_candidata_alternativa.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-3/conteudo/14_chave_candidata_alternativa.jpg width=400>
 
 Figura 14: Chave candidata e chave alternativa
 
@@ -260,3 +257,4 @@ Colunas que aceitam valores vazios são chamadas de **opcionais**.
 &nbsp;
 
 ----
+
