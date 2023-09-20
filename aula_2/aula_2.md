@@ -14,7 +14,7 @@ Serve para descrever os conceitos e as restrições básicas dos dados para noss
 
 &nbsp;
 
-> Ex: Cadastro de usuários não pode aceitar CPFs repetidos. Nosso banco de dados usa **chave_primária** ou cláusula **unique** para garantir que os valores serão únicos.
+> Ex: Cadastro de usuários não pode aceitar CPFs repetidos. O banco de dados usa **chave primária** ou cláusula **unique** para garantir que os valores serão únicos.
 
 &nbsp;
 
@@ -35,13 +35,13 @@ Entidade é uma coisa ou pessoa, concreta (física) ou abstrata (lógica), e que
 
 Observem a imagem abaixo:
 
-<img src=./imagens/entidades.png width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/entidades.png width=400>
 
 Figura 1: Entidades
 
 Nela podemos ver:
 - *Entidade*: a pessoa que estamos identificando
-- *Tipo de entidade*: No processo de descrição, não há interesse em descrever cada entidade individualmente, e sim cada classe de elementos daquela entidade (os atributos, as restrições de integridade, etc)
+- *Tipo de entidade*: No processo de descrição, não há interesse em descrever cada entidade individualmente, e sim cada conjunto de elementos comuns a todas as entidades do mesmo tipo (os atributos, as restrições de integridade, etc)
 - *Conjunto de entidades*: Coleção de entidades de um mesmo tipo existentes em um dado momento
 
 &nbsp;
@@ -70,31 +70,21 @@ As entidades podem ser classificadas de acordo com o motivo de sua existência:
   
   Em um sistema de vendas, por exemplo, a entidade **Produto** independe de qualquer outra entidade para existir.
 
+  São representadas por um retângulo (Figura XXX)
+
 - **Entidades Fracas** são aquelas de dependem de outras entidades para existir pois, individualmente, não fazem sentido existir.
   
   No sistema de vendas, por exemplo, a entidade **Venda** depende da entidade *Produto*, pois não existe uma venda sem itens.
 
-- **Entidades Associativas** surgem quando há a necessidade de associar uma entidade a um relacionamento existente. Na modelagem entidade-relacionamento, **não é possível que um relacionamento seja associado a uma entidade**, então tornamos esse relacionamento uma entidade associativa, que poderá se relacionar com outras entidades.
-  
-  No nosso sistema de vendas, por exemplo, vamos considerar que a empresa passou a entregar brindes para clientes que comprassem um determinado produto. A entidade **Brinde** não está relacionada nem com a **Venda** nem com o **Produto** em si, e sim com o item da venda (ou seja, com o relacionamento entre Venda e Produto). Como não podemos associar a entidade Brinde com um relacionamento, vamos criar a entidade associativa chamada **Item da venda**, que contém os atributos identificadores das entidades Venda e Produto, além de informações como quantidade, etc. A partir dai podemos relacionar o **Brinde** com o **Item da Venda**, indicando que aquele prêmio foi dado ao cliente por comprar aquele produto em específico.
+  São representadas por dois retângulos (Figura xxx)
 
+- **Entidades Associativas** são utilizadas para permitir que um relacionamento seja visto como uma entidade. Será visto melhor após explicarmos sobre relacionamentos.
 
 &nbsp;
 
 ### Atributos
 É uma propriedade ou característica que descreve as entidades, além de restrições destes dados quando aplicáveis.
 
-&nbsp;
-
-Observem a imagem abaixo, novamente:
-
-<img src=./imagens/entidades.png width=400>
-
-Figura 2: Entidades
-
-A cor da roupa, o sexo, o humor, são exemplos de atributos.
-
-&nbsp;
 
 Entidade **Pessoa**:
 - Possui como atributos o **Nome**, a **Idade**, a **Altura** e, pensando no Brasil, um **CPF**.
@@ -139,37 +129,33 @@ Dois ou mais valores de atributos podem estar relacionados (Ex: data de nascimen
 
 &nbsp;
 
-<img src=./imagens/entidades_e_atributos.png width=450>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/entidades_e_atributos.png width=450>
 
-Figura 3: Entidades e Atributos
+Figura 2: Entidades e Atributos
 
 &nbsp;
 
 #### Chave primária
 
-Um atributo que identifica a entidade em um domínio, e não pode se repetir, é chamado de **Chave Primária**. 
+Um atributo que identifica uma determinada entidade de forma única, ou seja, sem ambiguidade, é chamado de **Chave Primária**.
 
-Ex: Cadastro de clientes, na entidade **Cliente** esse atributo poderia ser o **CPF**.
+Por esse motivo a chave primária de uma entidade é única, e não se repete.
 
 &nbsp;
 
 #### Chave estrangeira
 
-Os atributos referenciais são chamados de **Chave Estrangeira**, e normalmente estão ligados à **chave primária** da outra entidade.
-
-Ex: Sistema de vendas, a entidade **Cliente** possui como chave primária o atributo CPF, e a entidade **Venda** possui um atributo chamado **CPF do cliente**, que seria uma **chave estrangeira** relacionada com o campo CPF da entidade Cliente.
-
-&nbsp;
+Os atributos referenciais são chamados de **Chave Estrangeira**, e normalmente estão ligados à **chave primária** da outra entidade. Eles servem para identificar, na entidade B, a chave primária da entidade A.
 
 Observem a imagem abaixo:
 
-<img src=./imagens/chave_primaria_e_estrangeira.jpg width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/chave_primaria_e_estrangeira.jpg width=400>
 
-Figura 4: Chave primária e estrangeira
+Figura 3: Chave primária e estrangeira
 
 &nbsp;
 
-Temos a tabela (uma entidade) Pessoa, a tabela Automóvel (uma entidade) e a tabela Propriedade.
+Temos a tabela Pessoa (entidade), a tabela Automóvel (entidade) e a tabela Propriedade (entidade).
 
 Na tabela **Pessoa**, o atributo *Identidade* é uma **chave primária**.
 
@@ -177,7 +163,7 @@ Na tabela **Automóvel**, o atributo *Placa* é uma **chave primária**.
 
 Na tabela **Propriedade**, juntamos a *chave primária Placa* e a *chave primária Identidade*, para compor a chave primária da tabela Propriedade.
 
-Vendo a partir da tabela **Propriedade**, Placa e Identidade são chaves estrangeiras, pois vieram de outras tabelas (onde são chaves primárias).
+Mudando a perspectiva para a tabela **Propriedade**, Placa e Identidade são chaves estrangeiras, pois vieram de outras tabelas (onde são chaves primárias).
 
 Os dois campos em conjunto são a chave primária da tabela Propriedade, então **não pode** ter duas linhas na tabela com os valores **A1/P1** ou **A2/P2**, por exemplo.
 
@@ -209,16 +195,8 @@ E os papéis são:
 
 &nbsp;
 
-A imagem abaixo poderia representar o relacionamento entre o João e a PUCRS, por exemplo.
-
-<img src=./imagens/relacionamentos.png width=300>
-
-Figura 5: Relacionamentos
-
-&nbsp;
-
 #### Cardinalidade
-Aponta a quantidade mínima e a quantidade máxima de objetos envolvidos em cada lado do relacionamento. É a *restrição de integridade* dos relacionamentos, e **obrigatoriamente** deve ser incluída na modelagem.
+Aponta a quantidade mínima e a quantidade máxima de objetos envolvidos em cada lado do relacionamento. É a *restrição de integridade* dos relacionamentos, e **obrigatoriamente** deve ser incluída na modelagem. Possui valor mínimo e valor máximo (0, 1 ou n).
 
 Os relacionamentos podem ser classificados de três formas, de acordo com a Cardinalidade:
 
@@ -238,9 +216,26 @@ Os relacionamentos podem ser classificados de três formas, de acordo com a Card
 
 Em geral os relacionamentos são nomeados com **verbos** ou **expressões** que representam a forma como as entidades interagem ou a ação que uma exerce sobre a outra. Essa nomenclatura pode variar de acordo com a direção em que se lê o relacionamento, conforme vimos na frase "João trabalha na universidade PUCRS".
 
-<img src=./imagens/relacionamentos.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/relacionamentos.png width=300>
 
-Figura 6: Relacionamentos
+Figura 4: Relacionamentos
+
+&nbsp;
+
+### Recapitulando: Entidade Associativa
+
+**Entidades Associativas** são utilizadas para permitir que um relacionamento seja visto como uma entidade. Ao ser utilizado, faz com que aquele relacionamento seja utilizado como entidade em outros relacionamentos.
+
+  
+  Vamos considerar o sistema de reservas de assentos para vôos de uma companhia aérea. Existe a entidade **Voo**, existe a entidade **Assento**, e existe o relacionamento **Disponibilidade** entre as duas entidades. O **Passageiro**, ao fazer uma **Reserva**, não se relaciona isoladamente com a entidade **Voo** e nem com a entidade **Assento**, e sim com relacionamento (**Disponibilidade**) dessas duas entidades. Mas como entidades não podem se relacionar com relacionamentos, transformamos o relacionamento em uma entidade associativa.
+
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-entidade-associativa.png width=300>
+
+Figura 5: Entidade Associativa
+
+Usamos a entidade associativa quando:
+- Existem entidades participantes de um relacionamento que são opcionais (voo-assento-passageiro)
+- Existem entidades participantes de um relacionamento que são repetitivas (pessoa_1-pessoa_2-filhos)
 
 &nbsp;
 
@@ -257,31 +252,142 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
 &nbsp;
 
+#### Elementos-base do diagrama entidade-relacionamento
+
+- **Entidades**
+
+  - As `entidades fortes` são representadas por um retângulo.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-entidade-forte.png width=100>
+
+    Figura 6: Entidade forte
+
+  &nbsp;
+
+  - As `entidades fracas` são representadas por dois retângulos.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-entidade-fraca.png width=100>
+
+    Figura 7: Entidade fraca
+
+  - As `entidades associativas` são representadas por um losango envolto em um retângulo.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-entidade-associativa.png width=400>
+
+    Figura 8: Entidade associativa
+
+- **Atributos**
+
+  - Os `atributos simples de valor único e armazenados` podem ser representados tanto por uma elipse quando por um pequeno círculo.
+  
+    Deve-se escolher um deles e utilizar somente ele durante a representação.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-atributo-simples.png width=200>
+
+    Figura 9: Atributo simples de valor único e armazenado
+
+  &nbsp;
+
+   - Os `atributos compostos` são representados por uma elipse principal com outras elipses ligadas a ela.
+
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-atributo-composto.png width=200>
+
+      Figura 10: Atributo composto
+
+  &nbsp;
+
+   - Os `atributos multivalorados` são representados por duas elipses.
+
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-atributo-multivalorado.png width=100>
+
+      Figura 11: Atributo multivalorado
+  
+  &nbsp;
+
+   - Os `atributos derivados` são representados por uma elipse tracejada.
+
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-atributo-derivado.png width=100>
+
+      Figura 12: Atributo derivado
+
+- **Chave primária**
+
+  - A `Chave primária` pode ser representada tanto por uma elipse com sublinhado no nome quando por um pequeno círculo com fundo preto.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-chave-primaria.png width=200>
+
+    Figura 13: Chave Primária
+
+&nbsp;
+
+- **Relacionamentos**
+
+  - Os `relacionamentos` são representadas por um retângulo.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-relacionamentos.png width=100>
+
+    Figura 14: Relacionamento
+
+&nbsp;
+
+ - **Cardinalidades**
+
+  - `Cardinalidade 1..1` No mínimo 1, no máximo 1. Obs: o mínimo também pode ser zero, ai seria (0:1) 
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-1.png width=400>
+
+    Figura 15: Cardinalidade 1..1
+  
+  &nbsp;
+
+  - `Cardinalidade 1..n` No mínimo 1, no máximo n. Obs: o mínimo também pode ser zero, ai seria (0:n).
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-n.png width=400>
+
+    Figura 16: Cardinalidade 1..n
+  
+  &nbsp;
+
+  - `Cardinalidade n..n`  No mínimo n, no máximo n. Obs: o mínimo também pode ser maior que 1, como por exemplo (3:n).
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-n-n.png width=400>
+
+    Figura 17: Cardinalidade n..n
+  
+  &nbsp;
+
+  - `Leitura da cardinalidade` Na leitura das cardinalidades, por exemplo na relação *titular-dependente*, dizemos que o titular registra no mínimo 1 e no máximo n dependentes. Ou seja, identificamos a entidade, pulamos a cardinalidade que está na entidade lida, identificamos o relacionamento e depois a cardinalidade oposta à primeira entidade, e por fim a entidade restante.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-ler-cardinalidade.png width=400>
+
+    Figura 18: Lendo cardinalidades
+------------------
+
 Podemos escrever o diagrama entidade-relacionamento de diversas formas diferentes:
 
 &nbsp;
 
-<img src=./imagens/diagrama_1_imobiliaria.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_1_imobiliaria.png width=300>
 
-Figura 7: Diagrama de um sistema de imobiliária
-
-&nbsp;
-
-<img src=./imagens/diagrama_2_vendas.png width=300>
-
-Figura 8: Diagrama de uma venda
+Figura 19: Diagrama de um sistema de imobiliária com cardinalidade simplificada
 
 &nbsp;
 
-<img src=./imagens/diagrama_3_com_atributos.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_2_vendas.png width=300>
 
-Figura 9: Diagrama com atributos em sua notação original
+Figura 20: Diagrama de uma venda
 
 &nbsp;
 
-<img src=./imagens/diagrama_4_classes.png width=300>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_3_com_atributos.png width=300>
 
-Figura 10: Diagrama com atributos em sua notação mais atual (diagrama de classes)
+Figura 21: Diagrama com atributos em sua notação original
+
+&nbsp;
+
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_4_classes.png width=300>
+
+Figura 22: Diagrama com atributos em sua notação mais atual (diagrama de classes)
 
 &nbsp;
 
@@ -299,6 +405,8 @@ https://www.diagrams.net/
 
 &nbsp;
 
+Em aula vamos utilizar o último da lista, Draw IO (ou diagrams.net).
+
 ## Modelando nosso primeiro banco de dados
 
 A empresa ACME registra os funcionários, departamentos e projetos de uma empresa. Após a fase de levantamento e análise de requisitos, chegamos na seguinte descrição:
@@ -312,17 +420,3 @@ A empresa ACME registra os funcionários, departamentos e projetos de uma empres
 > Armazenamos o nome, número do Cadastro de Pessoa Física, endereço, salário, sexo (gênero) e data de nascimento de cada funcionário. Um funcionário é designado para um departamento, mas pode trabalhar em vários projetos, que não necessariamente são controlados pelo mesmo departamento. Registramos o número atual de horas por semana que um funcionário trabalha em cada projeto. Também registramos o supervisor direto de cada funcionário (que é outro funcionário).
 > 
 > Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário.
-
-&nbsp;
-
-Iniciamos a modelagem da empresa ACME acima em aula, resultando na seguinte entidade e seus atributos.
-
-<img src=./imagens/diagrama_empresa_acme.jpg width=400>
-
-Figura 11: Diagrama da empresa ACME
-
-&nbsp;
-
-A partir disto, recrie o diagrama no site https://www.diagrams.net/ (ou outro de sua escolha) e construa os relacionamentos, incluindo as cardinalidades.
-
-Obs: Inclui o projeto que estávamos usando em aula, para vocês seguirem do ponto onde paramos. O nome é **diagrama_empresa_acme_diagrams_net.drawio**
