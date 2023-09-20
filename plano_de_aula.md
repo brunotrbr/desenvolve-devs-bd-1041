@@ -11,12 +11,14 @@
 - Modelagem para um banco de dados relacional utilizando o modelo entidade-relacionamento (MER). Definição de entidade, relacionamento, tipos de atributos e cardinalidade de um relacionamento.
 
 ## Aula 3
-- Mapeamento do MER (modelo conceitual) para o modelo relacional (modelo lógico). Definição de relações, esquemas, tuplas e atributos.
+- Identificação de entidades, relacionamentos, generalização, especialização, relacionamentos de grau N, elementos do modelo lógico/relacional (tabelas, tuplas, chaves, etc) 
 
 - Integridade de entidade, suas características e tipos de atributo chave. Integridade referencial, suas características e chaves estrangeiras.
 
 ## Aula 4
 - Dependência funcional. Normalização de um banco de dados. Vantagens e desvantagens desse processo. Exemplos de banco de dados não normalizados (e.g. Data warehouse).
+
+- Mapeamento do MER (modelo conceitual) para o modelo relacional (modelo lógico).
 
 ## Aula 5
 - Sintaxe da linguagem SQL e suas principais categorias de comandos: DQL, DDL e DML.
