@@ -256,5 +256,11 @@ Colunas que aceitam valores vazios são chamadas de **opcionais**.
 
 &nbsp;
 
-----
+# Caixa de sugestões
 
+Tem alguma sugestão para melhorar o andamento das aulas? Por favor preencha o formulário abaixo.
+
+https://forms.gle/Yg6pSQFaoSYtZ4nG8
+
+
+Não deixe a sugestão de melhorias para depois! Compartilhe antes, que corrijo o mais rápido possível.
