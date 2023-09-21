@@ -1,5 +1,3 @@
-
-
 # MER: Modelo Entidade Relacionamento
 
 ## Como traduzir requisitos de um problema do mundo real para um modelo conceitual?
@@ -70,13 +68,9 @@ As entidades podem ser classificadas de acordo com o motivo de sua existência:
   
   Em um sistema de vendas, por exemplo, a entidade **Produto** independe de qualquer outra entidade para existir.
 
-  São representadas por um retângulo (Figura XXX)
-
 - **Entidades Fracas** são aquelas de dependem de outras entidades para existir pois, individualmente, não fazem sentido existir.
   
   No sistema de vendas, por exemplo, a entidade **Venda** depende da entidade *Produto*, pois não existe uma venda sem itens.
-
-  São representadas por dois retângulos (Figura xxx)
 
 - **Entidades Associativas** são utilizadas para permitir que um relacionamento seja visto como uma entidade. Será visto melhor após explicarmos sobre relacionamentos.
 
@@ -155,7 +149,7 @@ Figura 3: Chave primária e estrangeira
 
 &nbsp;
 
-Temos a tabela Pessoa (entidade), a tabela Automóvel (entidade) e a tabela Propriedade (entidade).
+Temos a tabela Pessoa (entidade), a tabela Automóvel (entidade) e a tabela Propriedade (relacionamento).
 
 Na tabela **Pessoa**, o atributo *Identidade* é uma **chave primária**.
 
@@ -269,6 +263,8 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
     <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-entidade-fraca.png width=100>
 
     Figura 7: Entidade fraca
+    
+  &nbsp;
 
   - As `entidades associativas` são representadas por um losango envolto em um retângulo.
 
@@ -312,7 +308,7 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
 - **Chave primária**
 
-  - A `Chave primária` pode ser representada tanto por uma elipse com sublinhado no nome quando por um pequeno círculo com fundo preto.
+  - A `Chave primária` pode ser representada tanto por uma elipse com sublinhado no nome quanto por um pequeno círculo com fundo preto.
 
     <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-chave-primaria.png width=200>
 
@@ -322,7 +318,7 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
 - **Relacionamentos**
 
-  - Os `relacionamentos` são representadas por um retângulo.
+  - Os `relacionamentos` são representadas por um losango.
 
     <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-relacionamentos.png width=100>
 
@@ -361,7 +357,8 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
     <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-ler-cardinalidade.png width=400>
 
     Figura 18: Lendo cardinalidades
-------------------
+
+&nbsp;
 
 Podemos escrever o diagrama entidade-relacionamento de diversas formas diferentes:
 
@@ -409,7 +406,7 @@ Em aula vamos utilizar o último da lista, Draw IO (ou diagrams.net).
 
 ## Modelando nosso primeiro banco de dados
 
-A empresa ACME registra os funcionários, departamentos e projetos de uma empresa. Após a fase de levantamento e análise de requisitos, chegamos na seguinte descrição:
+A empresa ACME registra os funcionários, departamentos e projetos dela. Após a fase de levantamento e análise de requisitos, chegamos na seguinte descrição:
 
 &nbsp;
 
@@ -419,4 +416,16 @@ A empresa ACME registra os funcionários, departamentos e projetos de uma empres
 > 
 > Armazenamos o nome, número do Cadastro de Pessoa Física, endereço, salário, sexo (gênero) e data de nascimento de cada funcionário. Um funcionário é designado para um departamento, mas pode trabalhar em vários projetos, que não necessariamente são controlados pelo mesmo departamento. Registramos o número atual de horas por semana que um funcionário trabalha em cada projeto. Também registramos o supervisor direto de cada funcionário (que é outro funcionário).
 > 
-> Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário.
+> Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário, aleḿ do Cadastro de Pessoa Física desse dependente.
+
+
+&nbsp;
+
+# Caixa de sugestões
+
+Tem alguma sugestão para melhorar o andamento das aulas? Por favor preencha o formulário abaixo.
+
+https://forms.gle/Yg6pSQFaoSYtZ4nG8
+
+
+Não deixe a sugestão de melhorias para depois! Compartilhe antes, que corrijo o mais rápido possível.
