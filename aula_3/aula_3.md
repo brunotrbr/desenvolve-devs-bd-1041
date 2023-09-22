@@ -34,8 +34,6 @@ Figura 3: Identificador composto
 
 &nbsp;
 
-----
-
 ## Identificação de relacionamentos
 
 Normalmente, uma ocorrência de relacionamento diferencia-se das demais do mesmo relacionamento pelas ocorrências de entidades que participam dela.
@@ -96,7 +94,11 @@ Figura 6: Alternativa para entidade associativa - consulta médica
 
 &nbsp;
 
-----
+Usamos a entidade associativa quando:
+- Existem entidades participantes de um relacionamento que são opcionais (voo-assento-passageiro)
+- Existem entidades participantes de um relacionamento que são repetitivas (pessoa_1-pessoa_2-filhos)
+
+&nbsp;
 
 ## Generalização e especialização
 
@@ -115,8 +117,6 @@ Na generalização/especialização, as entidades especializadas herdam os atrib
 Na figura 7, por exemplo, a entidade **pessoa física** possui CIC, sexo, nome e código, sendo os dois últimos atributos da entidade genérica **cliente**.
 
 &nbsp;
-
-----
 
 ## Relacionamentos de grau N (ou relacionamentos ternários)
 

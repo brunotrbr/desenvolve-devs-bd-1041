@@ -1,139 +1,34 @@
-# IMPORTANTE:
+# Exercícios
 
-Foi necessário atualizar nosso modelo da empresa ACME, adicionando as cardinalidades mínimas e máximas, para que possamos utilizar a tabela de regras de forma adequada.
-
-&nbsp;
 
 ## Exercício 1
 
-A empresa ACME registra os funcionários, departamentos e projetos de uma empresa. Após a fase de levantamento e análise de requisitos, chegamos na seguinte descrição:
+Gravadora
 
-> A empresa é organizada em departamentos. Cada departamento tem um nome exclusivo, um número exclusivo e um funcionário em particular que o gerencia. Registramos a data inicial em que esse funcionário começou a gerenciar o departamento. Um departamento pode ter vários locais.
+> Você foi contratado por uma grande gravadora para trabalhar como projetista de banco de dados no projeto de desenvolvimento de um site para a comercialização e download de músicas em formato MP3.
 > 
-> Um departamento controla uma série de projetos, cada um deles com um nome exclusivo, um número exclusivo e um local exclusivo.
+> Para proporcionar uma interface amigável e poderosa o site deverá permitir a pesquisa de músicas a partir do autor (que pode ser um artista solo ou uma banda), do álbum, do número da trilha no álbum, do título da música ou do estilo musical (Rock, Blues, Instrumental, etc.) do álbum. 
 > 
-> Armazenamos o nome, número do Cadastro de Pessoa Física, endereço, salário, sexo (gênero) e data de nascimento de cada funcionário. Um funcionário é designado para um departamento, mas pode trabalhar em vários projetos, que não necessariamente são controlados pelo mesmo departamento. Registramos o número atual de horas por semana que um funcionário trabalha em cada projeto. Também registramos o supervisor direto de cada funcionário (que é outro funcionário).
-> 
-> Queremos registrar os dependentes de cada funcionário para fins de seguro. Para cada dependente, mantemos o nome, sexo, data de nascimento e parentesco com o funcionário.
-> 
+> Lembre-se que muitas músicas são disponibilizadas em mais de um álbum (no álbum de lançamento e novamente em coletâneas, por exemplo), mas é importante saber qual a trilha em que elas foram gravadas em cada álbum.
 
 &nbsp;
 
-Fazer a modelagem lógica em texto mesmo, do diagrama abaixo, conforme exemplo
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído construído para o caso acima, conforme exemplo:
 
-> Emp (CódigoEmp,Tipo,Nome,CIC,CódigoDept)    
->     CódigoDept referencia Depto
-
-&nbsp;
-
-<img src=./imagens/exercicio_1_diagrama_empresa_acme.png width=600>
+> Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
+>     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira
 
 &nbsp;
 
-**Resposta:**
-
-Etapa 1: Mapear as entidades
-
-    funcionarios (cpf_func, nome, endereco, salario, genero, dt_nasc)
-        cpf_func PK
-
-    departamentos (num_dpto, nome_dpto)
-        num_dpto PK
-        nome_dpto UNIQUE
-
-    projetos (num_proj, nome_proj, loc_proj)
-        num_proj PK
-        nome_proj UNIQUE
-        loc_proj UNIQUE
-
-    dependentes (cpf_dep, nome, genero, dt_nasc, grau_parent)
-        cpf_dep PK
+Modelagem conceitual:
 
 &nbsp;
 
-Etapa 2: Mapear os relacionamentos 1:1
-
-    Gerencia:
-    departamentos (num_dpto, nome_dpto, cpf_gerente, data_inicio_gerente)
-        num_dpto PK
-        nome_dpto UNIQUE
-        cpf_gerente FK funcionarios
+Modelagem conceitual:
 
 &nbsp;
-
-Etapa 3: Mapear os relacionamentos 1:N
-    
-    trabalha_para:
-    funcionarios (cpf_func, nome, endereco, salario, genero, dt_nasc, num_dpto)
-        cpf_func PK
-        num_dpto FK departamentos
-
-    controla:
-    projetos (num_proj, nome_proj, loc_proj, num_dpto)
-        num_proj PK
-        nome_proj UNIQUE
-        loc_proj UNIQUE
-        num_dpto FK departamentos
-
-    supervisao:
-    funcionarios (cpf_func, nome, endereco, salario, genero, dt_nasc, num_dpto, cpf_supervisor)
-        cpf_func PK
-        num_dpto FK departamentos
-        cpf_supervisor FK funcionarios
-
-&nbsp;
-
-Etapa 4: Mapear os relacionamentos N:N
-
-    trabalha_em:
-    funcionarios_projetos (cpf_func, num_proj, horas)
-        cpf_func PK / FK funcionarios
-        num_proj PK / FK projetos
-
-&nbsp;
-
-Etapa 5: Mapear os atributos multivalorados
-
-    localizações departamento:
-    localizacoes_departamentos (num_dpto, endereco)
-        num_dpto PK / FK departamentos
-        endereco PK
-
-&nbsp;
-
-Resultado final: Juntar tudo
-
-    funcionarios (cpf_func, nome, endereco, salario, genero, dt_nasc, num_dpto, cpf_supervisor)
-        cpf_func PK
-        num_dpto FK departamentos
-        cpf_supervisor FK funcionarios
-
-    departamentos (num_dpto, nome_dpto, cpf_gerente, data_inicio_gerente)
-        num_dpto PK
-        nome_dpto UNIQUE
-        cpf_gerente FK funcionarios
-
-    projetos (num_proj, nome_proj, loc_proj, num_dpto)
-        num_proj PK
-        nome_proj UNIQUE
-        loc_proj UNIQUE
-        num_dpto FK departamentos
-
-    dependentes (cpf_dep, nome, genero, dt_nasc, grau_parent, cpf_func)
-        cpf_dep PK
-        cpf_func FK funcionarios
-
-    funcionarios_projetos (cpf_func, num_proj, horas)
-        cpf_func PK / FK funcionarios
-        num_proj PK / FK projetos
-
-    localizacoes_departamentos (num_dpto, endereco)
-        num_dpto PK / FK departamentos
-        endereco PK
 
 ## Exercício 2
-
-Fazer a modelagem conceitual e lógica da descrição abaixo:
 
 > App OurNote
 >
@@ -149,91 +44,60 @@ Fazer a modelagem conceitual e lógica da descrição abaixo:
 
 &nbsp;
 
-**Resposta:**
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído construído para o caso acima, conforme exemplo:
 
-<img src=./imagens/exercicio_2_diagrama_our_note.png width=400>
-
-&nbsp;
-
-Etapa 1: Mapear as entidades
-
-    anotacoes (id_anot, titulo, conteudo, dt_criacao, dt_atualizacao)
-        id_anot PK
-
-    rotulos (id_rot, nome, cor)
-        id_rot PK
-
-
-    lembretes (id_lembr, data_hora, sinal_visual, sinal_sonoro, antecedencia)
-        id_lembr PK
-
-    usuarios (login, senha)
-        login PK
+> Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
+>     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira
 
 &nbsp;
 
-Etapa 2: Mapear os relacionamentos 1:1
-
-    vinculada:
-    lembretes (id_lembr, data_hora, sinal_visual, sinal_sonoro, antecedencia, id_anot)
-        id_lembr PK
-        id_anot FK anotacoes
+Modelagem conceitual:
 
 &nbsp;
 
-Etapa 3: Mapear os relacionamentos 1:N
-    
-    criar lembrete:
-    lembretes (id_lembr, data_hora, sinal_visual, sinal_sonoro, antecedencia, id_anot, login_usuario)
-        id_lembr PK
-        id_anot FK anotacoes
-        login_usuario FK usuarios
-
-    criar anotacao:
-    anotacoes (id_anot, titulo, conteudo, dt_criacao, dt_atualizacao, login_usuario)
-        id_anot PK
-        login_usuario FK usuarios
-
-    criar rotulos:
-    rotulos (id_rot, nome, cor, login_usuario)
-        id_rot PK
-        login_usuario FK usuarios
+Modelagem conceitual:
 
 &nbsp;
 
-Etapa 4: Mapear os relacionamentos N:N
 
-    possui:
-    anotacoes_rotulos (id_anot, id_rotulo)
-        id_anot PK / FK anotacoes
-        id_rotulo PK / FK rotulos
+## Exercício 3
+
+Academia de ginástica
+
+> Nesse sistema, a recepcionista realiza a manutenção do cadastro de clientes e do cadastro de modalidades esportivas. Ao realizar sua inscrição na academia, o cliente informa à recepcionista a modalidade esportiva que deseja realizar (conforme tabela a seguir). Ao terminar o registro da inscrição do cliente, a recepcionista libera um cartão de acesso.
+> 
+Modalidade | Descrição | Valor (R$)
+--- | --- | ---
+Academia 3x (7h-17h) | Acesso a todos os equipamentos da academia, até no máximo 3 vezes por semana, restrito ao horário das 7h às 17h. | 136,00
+Academia 3x | Acesso a todos os equipamentos da academia, até no máximo 3 vezes por semana, em qualquer horário. | 151,00
+Academia livre | Acesso a todos os equipamentos da academia, em qualquer dia da semana (seg a dom), em qualquer horário. | 180,00
+
+> Para poder acessar a academia, o cliente deverá antes realizar o pagamento para o caixa, no setor financeiro. Somente são aceitos pagamentos por cartão de crédito.
+> 
+> Para ingressar na academia, o cliente deve passar seu cartão de acesso na roleta, a qual somente será liberada se o pagamento estiver em dia e o acesso estiver conforme as restrições da modalidade contratada (horário, número de vezes por semana ou acesso livre).
+> 
+> A recepcionista do sistema deverá poder emitir o relatório de frequência de um aluno. A recepcionista também é responsável pela manutenção das inscrições dos clientes, assim como pelo cancelamento ou suspensão de determinada inscrição.
+> 
+> Nessa academia, os instrutores cadastram os treinos dos alunos e são responsáveis pela sua manutenção. Dentro da academia, o aluno poderá imprimir o seu treino.
+
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído, conforme exemplo
+
+> Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
+>     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira
 
 &nbsp;
 
-Etapa 5: Mapear os atributos multivalorados
-    
-    N/A
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído para o caso acima, conforme exemplo:
+
+> Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
+>     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira
 
 &nbsp;
 
-Resultado final: Juntar tudo
+Modelagem conceitual:
 
-    lembretes (id_lembr, data_hora, sinal_visual, sinal_sonoro, antecedencia, id_anot, login_usuario)
-        id_lembr PK
-        id_anot FK anotacoes
-        login_usuario FK usuarios
+&nbsp;
 
-    anotacoes (id_anot, titulo, conteudo, dt_criacao, dt_atualizacao, login_usuario)
-        id_anot PK
-        login_usuario FK usuarios
+Modelagem conceitual:
 
-    rotulos (id_rot, nome, cor, login_usuario)
-        id_rot PK
-        login_usuario FK usuarios
-
-    usuarios (login, senha)
-        login PK
-
-    anotacoes_rotulos (id_anot, id_rotulo)
-        id_anot PK / FK anotacoes
-        id_rotulo PK / FK rotulos
+&nbsp;
