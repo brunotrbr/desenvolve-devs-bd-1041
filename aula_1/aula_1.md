@@ -122,7 +122,7 @@ As propriedades ACID são propriedades impostas pelos SGBDs para garantir o cont
 
 **SQL**: Bancos relacionais, que utilizam a linguagem SQL para manipulações e armazenam os dados em tabelas. Ex: Oracle SQL, PostgreSQL, SQL Server
 
-**NoSQL**: Bancos de dados não relacionais, e o nome NoSQL vem de **Not only SQL**, pois podem ser utilizados com outras linguagens (normalmente próprias do banco de dados ou APIs) que não o SQL. Os dados não são armazenados em tabelas (podem ser em documentos, chave-valor, grafos, etc) Ex: MongoDB, AWS Dynamo DB, Cosmos DB
+**NoSQL**: Bancos de dados não relacionais, e o nome NoSQL vem de **Not only SQL**, pois podem ser utilizados com outras linguagens (normalmente próprias do banco de dados ou APIs) que não o SQL. Também não existe a preocupação com manter o schema do banco de dados sempre atualizado (as colunas da tabla), a nível de administração do banco. Os dados não são armazenados em tabelas (podem ser em documentos, chave-valor, grafos, etc) Ex: MongoDB, AWS Dynamo DB, Cosmos DB
 
 **NewSQL** Bancos de dados relacionais modernos que buscam fornecer a escalabilidade e performance dos bancos noSQL enquanto mantém as propriedades ACID dos bancos relacionais tradicionais para prover a consistência, durabilidade e confiabilidade no BD. Utilizam SQL. Ex: VoltDB, Citus, Vitrus, Google Spanner
 
