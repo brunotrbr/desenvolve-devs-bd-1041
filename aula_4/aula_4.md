@@ -21,7 +21,7 @@ Para transformar do modelo conceitual para o modelo lógico, seguimos as técnic
 
 - Adotar nomes mais curtos/abreviados, mas ainda legíveis, e padronizados. Remover espaços em branco.
     - Na chave primária, caso seja um código da tabela Pessoa, utilizar o nome codPessoa ou cod_pessoa. 
-    - Data de nascimento pode virar dt_nasc ou ctNasc, etc.
+    - Data de nascimento pode virar dt_nasc ou dtNasc, etc.
 
 - Eliminar atributos compostos
     - Aplainar os atributos (cada atributo ganha uma coluna)
@@ -175,7 +175,7 @@ Figura 9: Relacionamento 1:1, ambas entidades opcionais
 
     homem (identidade, nome)
 
-    casamento (ident_mulher, ident_homem, dt_casamento)
+    casamento (ident_mulher, ident_homem, dt_casamento, regime_casamento)
 
 &nbsp;
 
@@ -183,11 +183,11 @@ Figura 9: Relacionamento 1:1, ambas entidades opcionais
 
 &nbsp;
 
-#### Quando uma entidade possui participação opcional
+#### Quando uma entidade possui participação opcional ou é obrigatória
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/conteudo/06_1_1_uma_opcional.jpg width=300>
 
-Figura 10: Relacionamento 1:1, uma entidade opcional
+Figura 10: Relacionamento 1:1, uma entidade opcional ou obrigatória
 
 &nbsp;
 
@@ -253,6 +253,14 @@ Figura 11: Relacionamento 1:N, a entidade com cardinalidade máxima 1 possui car
         - Colunas obrigatórias e opcionais. Na adição de colunas, em caso de venda a vista os campos CodFin, NoParc e TxJuros ficariam vazios, e preenchidos na venda a prazo.
 
 
+### Relacionamentos N:N
+
+&nbsp;
+
+#### Utilizar técnica da tabela própria
+
+&nbsp;
+
 ### Relacionamentos de grau N
 
 &nbsp;
@@ -292,7 +300,7 @@ Neste caso, teríamos as seguintes tabelas:
 
 ### Generalização/especialização
 
-Dado o esquema abaixo, 
+Dado o esquema abaixo:
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/conteudo/10_generalizacao_especializacao.jpg width=300>
 
