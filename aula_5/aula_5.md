@@ -110,18 +110,7 @@ Dado nosso modelo lógico da empresa acme, para a entidade **funcionarios**, vam
 &nbsp;
 
 ```sql
-CREATE TABLE public.funcionarios (
-	cod int NOT NULL,
-    cpf varchar(11) NOT NULL,
-	nome varchar(50) NOT NULL,
-	endereco varchar(100) NOT NULL,
-	salario numeric NOT NULL,
-	genero smallint NULL,
-	dt_nasc date NOT NULL,
-	cod_supervisor int NULL,
-	CONSTRAINT funcionarios_pk PRIMARY KEY (cod),
-	CONSTRAINT funcionarios_un UNIQUE (cpf)
-);
+
 ```
 
 &nbsp;
@@ -136,22 +125,13 @@ Reparem que não criamos o atributo **num_dpto**, uma vez que para incluir ele p
 Como o departamento pede o atributo cod_gerente, da tabela de **funcionarios**, vamos deixar o campo cod_gerente como opcional.
 
 ```sql
-CREATE TABLE departamentos (
-	cod int4 NOT NULL,
-	nome varchar(50) NOT NULL,
-	cod_gerente int4 NULL,
-	dt_ini_gerente date NULL,
-	CONSTRAINT departamentos_pk PRIMARY KEY (cod),
-	CONSTRAINT departamentos_un UNIQUE (nome),
-	CONSTRAINT dpto_func_fk FOREIGN KEY (cod_gerente) REFERENCES public.funcionarios(cod)
-);
+
 ```
 
 Agora vamos alterar a tabela **funcionarios**, para incluir o atributo num_dpto. Obs: Alter table é um comando de update, não de create.
 
 ```sql
-ALTER TABLE funcionarios ADD COLUMN cod_dpto int NULL;
-ALTER TABLE funcionarios ADD CONSTRAINT func_dpto_fk FOREIGN KEY (cod_dpto) REFERENCES departamentos (cod);
+
 ```
 
 &nbsp;
@@ -165,12 +145,7 @@ INSERT INTO <nome_da_tabela> (<nome_das_colunas>) VALUES (<valores>)
 ```
 
 ```sql
-INSERT INTO departamentos (cod, nome)
-VALUES
- (1, 'vendas'),
- (2, 'desenvolvimento'),
- (3, 'financeiro')
-;
+
 ```
 
 &nbsp;
@@ -184,28 +159,7 @@ Porque são opcionais.
 Agora vamos inserir funcionários.
 
 ```sql
--- Com erro de cpf (UNIQUE)
-INSERT INTO public.funcionarios
-(cod, cpf, nome, endereco, salario, genero, dt_nasc, cod_supervisor, cod_dpto)
-VALUES
-(1, '123', 'Pedro', 'Avenida um, 55', 2000, 1, 
-'2002-02-21', null, 1),
-(2, '456', 'Luciana', 'Avenida dois, 44', 3000, 2, '2002-11-6', null, 3),
-(3, '789', 'Ísis', 'Avenida três, 12', 2000, 2, '2002-05-19', null, 2),
-(4, '159', 'Lucas', 'Avenida quatro, 65', 16000, 1, '1957-08-11', null, 3),
-(5, '123', 'Eduardo', 'Avenida cinco, 555', 5000, 1, '1981-04-29', null, 2)
-;
 
-INSERT INTO public.funcionarios
-(cod, cpf, nome, endereco, salario, genero, dt_nasc, cod_supervisor, cod_dpto)
-VALUES
-(1, '123', 'Pedro', 'Avenida um, 55', 2000, 1, 
-'2002-02-21', null, 1),
-(2, '456', 'Luciana', 'Avenida dois, 44', 3000, 2, '2002-11-6', null, 3),
-(3, '789', 'Ísis', 'Avenida três, 12', 2000, 2, '2002-05-19', null, 2),
-(4, '159', 'Lucas', 'Avenida quatro, 65', 16000, 1, '1957-08-11', null, 3),
-(5, '753', 'Eduardo', 'Avenida cinco, 555', 5000, 1, '1981-04-29', null, 2)
-;
 ```
 
 &nbsp;
@@ -234,12 +188,7 @@ WHERE <nome_da_coluna> <operador> <valor> AND/OR <nome_da_coluna> <operador> <va
 ### Exemplos:
 
 ```sql
-SELECT nome FROM funcionarios;
-SELECT nome, cpf FROM funcionarios;
-SELECT * FROM funcionarios;
-SELECT * FROM funcionarios WHERE cpf = '123';
-SELECT * FROM funcionarios WHERE cpf != '123';
-SELECT * FROM funcionarios WHERE dt_nasc > '2005-01-01' OR dt_nasc < '1958-01-01' ORDER BY nome;
+
 ```
 
 &nbsp;
@@ -263,15 +212,7 @@ As restrições são iguais à do select.
 
 ### Exemplos
 ```sql
-UPDATE funcionarios SET cod_supervisor = 4 WHERE cod = 2
 
--- Vamos atualizar o gerente do departamento financeiro para incluir o Lucas como gerente.
-UPDATE departamentos SET cod_gerente = 4
-
--- Lembrar de incluir as restrições SEMPRE!!!!!
-
--- Primeiro vamos desfazer essa alteração
-UPDATE departamentos SET cod_gerente = 0
 ```
 
 &nbsp;
@@ -285,17 +226,13 @@ ALTER TABLE <nome_da_tabela> <operacao>;
 ```
 
 ```sql
-ALTER TABLE departamentos ADD CONSTRAINT departamentos_check CHECK ((cod_gerente IS NULL AND dt_ini_gerente IS NULL) OR (cod_gerente IS NOT NULL AND dt_ini_gerente IS NOT NULL));
+
 ```
 
 Agora não conseguimos mais fazer essa atualização.
 
 ```sql
--- Sem data de início do gerente.
-UPDATE departamentos SET cod_gerente = 4 WHERE cod = 2
 
--- Com data de início do gerente.
-UPDATE departamentos SET cod_gerente = 4, dt_ini_gerente = '2004-11-15' where cod = 3
 ```
 &nbsp;
 
@@ -314,9 +251,9 @@ As restrições são iguais à do select.
 
 ### Exemplos
 ```sql
-DELETE FROM funcionarios WHERE cod = 5;
+
 ```
-----
+
 
 &nbsp;
 
