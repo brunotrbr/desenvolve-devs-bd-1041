@@ -227,6 +227,14 @@ Os relacionamentos podem ser classificados de três formas, de acordo com a Card
 
 &nbsp;
 
+Os relacionamentos podem ser classificadas de acordo com o motivo de sua existência:
+
+- **Relacionamentos Fortes** são aquelas que existem entre duas entidades fortes.
+
+- **Relacionamentos fracos** são aquelas entre uma entidade forte e uma entidade fraca
+
+&nbsp;
+
 Em geral os relacionamentos são nomeados com **verbos** ou **expressões** que representam a forma como as entidades interagem ou a ação que uma exerce sobre a outra. Essa nomenclatura pode variar de acordo com a direção em que se lê o relacionamento, conforme vimos na frase "João trabalha na universidade PUCRS".
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/relacionamentos.png width=300>
@@ -291,6 +299,8 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
     Figura 8: Entidade associativa
 
+&nbsp;
+
 - **Atributos**
 
   - Os `atributos simples de valor único e armazenados` podem ser representados tanto por uma elipse quando por um pequeno círculo.
@@ -325,6 +335,8 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
       Figura 12: Atributo derivado
 
+&nbsp;
+
 - **Chave primária**
 
   - A `Chave primária` pode ser representada tanto por uma elipse com sublinhado no nome quanto por um pequeno círculo com fundo preto.
@@ -337,45 +349,53 @@ Permite criar uma linguagem comum entre o analista responsável por levantar os 
 
 - **Relacionamentos**
 
-  - Os `relacionamentos` são representadas por um losango.
+  - Os `relacionamentos fortes` são representados por um losango.
 
-    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-relacionamentos.png width=100>
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-relacionamento-forte.png width=400>
 
-    Figura 14: Relacionamento
+    Figura 14: Relacionamento forte
+
+  &nbsp;
+  
+  - Os `relacionamentos fracos` são representados por dois losangos, com a linha de ligação duplicada.
+
+    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-relacionamento-fraco.png width=400>
+
+    Figura 15: Relacionamento fraco
 
 &nbsp;
 
- - **Cardinalidades**
+  - **Cardinalidades**
 
-  - `Cardinalidade 1..1` No mínimo 1, no máximo 1. Obs: o mínimo também pode ser zero, ai seria (0:1) 
+    - `Cardinalidade 1..1` No mínimo 1, no máximo 1. Obs: o mínimo também pode ser zero, ai seria (0:1) 
 
-    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-1.png width=400>
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-1.png width=400>
 
-    Figura 15: Cardinalidade 1..1
+      Figura 16: Cardinalidade 1..1
   
-  &nbsp;
+    &nbsp;
 
-  - `Cardinalidade 1..n` No mínimo 1, no máximo n. Obs: o mínimo também pode ser zero, ai seria (0:n).
+    - `Cardinalidade 1..n` No mínimo 1, no máximo n. Obs: o mínimo também pode ser zero, ai seria (0:n).
 
-    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-n.png width=400>
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-1-n.png width=400>
 
-    Figura 16: Cardinalidade 1..n
+      Figura 17: Cardinalidade 1..n
   
-  &nbsp;
+    &nbsp;
 
-  - `Cardinalidade n..n`  No mínimo n, no máximo n. Obs: o mínimo também pode ser maior que 1, como por exemplo (3:n).
+    - `Cardinalidade n..n`  No mínimo n, no máximo n. Obs: o mínimo também pode ser maior que 1, como por exemplo (3:n).
 
-    <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-n-n.png width=400>
+      <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-cardinalidade-n-n.png width=400>
 
-    Figura 17: Cardinalidade n..n
+      Figura 18: Cardinalidade n..n
   
-  &nbsp;
+&nbsp;
 
   - `Leitura da cardinalidade` Na leitura das cardinalidades, por exemplo na relação *titular-dependente*, dizemos que o titular registra no mínimo 1 e no máximo n dependentes. Ou seja, identificamos a entidade, pulamos a cardinalidade que está na entidade lida, identificamos o relacionamento e depois a cardinalidade oposta à primeira entidade, e por fim a entidade restante.
 
     <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/mer-ler-cardinalidade.png width=400>
 
-    Figura 18: Lendo cardinalidades
+    Figura 19: Cardinalidade n..n
 
 &nbsp;
 
@@ -385,25 +405,25 @@ Podemos escrever o diagrama entidade-relacionamento de diversas formas diferente
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_1_imobiliaria.png width=300>
 
-Figura 19: Diagrama de um sistema de imobiliária com cardinalidade simplificada
+Figura 20: Diagrama de um sistema de imobiliária com cardinalidade simplificada
 
 &nbsp;
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_2_vendas.png width=300>
 
-Figura 20: Diagrama de uma venda
+Figura 21: Diagrama de uma venda
 
 &nbsp;
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_3_com_atributos.png width=300>
 
-Figura 21: Diagrama com atributos em sua notação original
+Figura 22: Diagrama com atributos em sua notação original
 
 &nbsp;
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/diagrama_4_classes.png width=300>
 
-Figura 22: Diagrama com atributos em sua notação mais atual (diagrama de classes)
+Figura 23: Diagrama com atributos em sua notação mais atual (diagrama de classes)
 
 &nbsp;
 
