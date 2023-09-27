@@ -13,7 +13,7 @@ Gravadora
 
 &nbsp;
 
-Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído construído para o caso acima, conforme exemplo:
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído para o caso acima, conforme exemplo:
 
 > Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
 >     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira
@@ -44,7 +44,7 @@ Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento
 
 &nbsp;
 
-Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído construído para o caso acima, conforme exemplo:
+Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento construído para o caso acima, conforme exemplo:
 
 > Entidade (CodigoEntidade,Atributo1,Atributo2,CodigoEntidadeEstrangeira)    
 >     CodigoEntidadeEstrangeira referencia EntidadeEstrangeira

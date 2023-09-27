@@ -63,13 +63,17 @@ CREATE TABLE order_items (
 );
 ```
 
-Nos inserts da tabela orders, adicionamos a data como uma string no formato DD-MM-YYYY (ex: 05-09-2015) e fazemos um cast para o campo date do banco de dados
 
-```sql
-INSERT INTO orders VALUES (9993,993,TO_DATE('06-09-2015','DD-MM-YYYY'),1659);
--- E aqui adicionamos a string com um formato diferente, mas mudamos o formato do cast também
-INSERT INTO orders VALUES (9994,994,TO_DATE('2015/09/06','YYYY/MM/DD'),1034);
-```
+Vamos executar os scripts abaixo para inserir valores nas tabelas
+
+01_insert_customers.sql
+02_insert_suppliers.sql
+03_insert_categories.sql
+04_insert_orders.sql
+05_insert_products.sql
+06_populate_ecommerce.sql
+07_adjust_database.sql
+
 
 &nbsp;
 
@@ -204,3 +208,74 @@ SELECT customer_id, email, REPLACE(email, '@', ' [at] ') as replaced_address FRO
 select customer_id, email from customers where customer_id in (984,256,852);
 
 ```
+
+# Joins
+
+Com frequência, queremos buscar dados relacionados em outras tabelas. Esse é um dos principais motivos de se usar um banco relacional, para que se tenham dados relacionados e seja simples de buscar estas relações.
+
+São exemplos de joins:
+
+> CROSS JOIN, INNER JOIN, RIGHT JOIN, LEFT JOIN, FULL JOIN e SELF JOIN
+
+Cross Join:
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-6/conteudo/cross_join.png width=500>
+
+&nbsp;
+
+Demais joins:
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-6/conteudo/sql_joins.png width=700>
+
+```sql
+-- CROSS JOIN gera todas as combinações possíveis para cada uma das linhas das tabelas relacionadas
+SELECT * FROM categories
+CROSS JOIN products
+limit 100;
+
+
+-- INNER JOIN gera as combinações em que a cláusula ON do join seja verdadeira, ou seja que os customer_ids, sejam iguais no exemplo abaixo
+SELECT * FROM orders
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+LIMIT 100;
+
+
+-- LEFT JOIN gera as combinações em que a cláusula ON do join seja verdadeira. Caso a tabela do lado esquerdo (a primeira) não satisfaça a igualdade da cláusula ON, ela é inclusa no resultado igual, mas com o valor zerado
+SELECT categories.category_name, COUNT(DISTINCT products.product_id) AS product_count
+FROM categories
+LEFT JOIN products ON categories.category_id = products.category_id
+GROUP BY categories.category_id;
+
+
+-- RIGHT JOIN gera as combinações em que a cláusula ON do join seja verdadeira. Caso a tabela do lado direito (a segunda) não satisfaça a igualdade da cláusula ON, ela é inclusa no resultado igual, mas com o valor zerado
+SELECT categories.category_name, COUNT(DISTINCT products.product_id) AS product_count
+FROM categories
+RIGHT JOIN products ON categories.category_id = products.category_id
+GROUP BY categories.category_id;
+-- Exemplo invertendo as tabelas
+SELECT categories.category_name, COUNT(DISTINCT products.product_id) AS product_count
+FROM products
+RIGHT JOIN categories ON categories.category_id = products.category_id
+GROUP BY categories.category_id;
+
+
+-- FULL JOIN gera as combinações em que a cláusula ON do join seja verdadeira. Caso alguma não satisfaça a igualdade da cláusula ON, ela é inclusa no resultado igual, mas com o valor null
+SELECT categories.category_name, products.product_id
+FROM categories
+full JOIN products ON categories.category_id = products.category_id
+ORDER BY products.product_id nulls first
+
+
+-- SELF JOIN é usado para fazer join entre a mesma tabela, mas usando aliases diferentes. Não existe a palavra reservada SELF JOIN, portanto podemos usar o INNER JOIN com alias diferentes.
+SELECT * FROM funcionarios AS func
+INNER JOIN funcionarios AS supervisor
+ON func.cod_supervisor = supervisor.cod
+```
+&nbsp;
+
+# Caixa de sugestões
+
+Tem alguma sugestão para melhorar o andamento das aulas? Por favor preencha o formulário abaixo.
+
+https://forms.gle/Yg6pSQFaoSYtZ4nG8
+
+
+Não deixe a sugestão de melhorias para depois! Compartilhe antes, que corrijo o mais rápido possível.
