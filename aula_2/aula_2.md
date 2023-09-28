@@ -231,7 +231,7 @@ Os relacionamentos podem ser classificadas de acordo com o motivo de sua existê
 
 - **Relacionamentos Fortes** são aquelas que existem entre duas entidades fortes.
 
-- **Relacionamentos fracos** são aquelas entre uma entidade forte e uma entidade fraca
+- **Relacionamentos fracos** são aquelas entre uma entidade forte e uma entidade fraca. A chave da entidade fraca vai ser constituída da chave primária da entidade fraca mais a chave primária da entidade forte.
 
 &nbsp;
 

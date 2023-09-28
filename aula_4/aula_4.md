@@ -493,7 +493,7 @@ funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, n
 Dependente de:
 dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
     cpf PK
-    numero_matricula_func FK referencia funcionarios
+    numero_matricula_func PK / FK referencia funcionarios
 
 ### Etapa 4 - Mapeamento dos relacionamentos N:N
 Trabalha em:
@@ -530,7 +530,7 @@ projetos (num, nome, local, num_dpto)
 
 dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
     cpf PK
-    numero_matricula_func FK referencia funcionarios
+    numero_matricula_func PK / FK referencia funcionarios
 
 funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
     numero_matricula_func PK / FK referencia funcionarios
