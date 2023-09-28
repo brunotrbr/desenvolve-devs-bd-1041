@@ -424,6 +424,121 @@ Fazer a modelagem lógica em texto da empresa ACME, com base no diagrama constru
 
 ### Modelagem lógica
 
+# Modelagem com numero_matricula como chave primária
+
+### Etapa 1 - Mapeamento das entidades
+funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, supervisor)
+    numero_matricula PK  ## O boticário utiliza o número de matrícula
+    cpf UNIQUE
+
+departamentos (num, nome, gerente, localizacoes)
+    num PK
+    nome UNIQUE
+
+projetos (num, nome, local, dpto_gerencia)
+    num PK
+    nome UNIQUE
+    local UNIQUE
+
+dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
+    cpf PK
+    numero_matricula_func FK referencia funcionarios
+
+<!-- # Modelagem com CPF como chave primária
+funcionarios (cpf, nome, endereco, salario, genero, dt_nasc, supervisor)
+    cpf PK
+
+departamentos (num, nome, gerente, localizacoes)
+    num PK
+    nome UNIQUE
+
+projetos (num, nome, local, dpto_gerencia)
+    num PK
+    nome UNIQUE
+    local UNIQUE
+
+dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, cpf_func)
+    cpf PK
+    cpf_func FK referencia funcionarios -->
+
+### Etapa 2 - Mapeamento dos relacionamentos 1:1
+
+Gerencia:
+departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
+    num PK
+    nome UNIQUE
+    numero_matricula_gerente FK referencia funcionarios
+
+### Etapa 3 - Mapeamento dos relacionamentos 1:N
+Trabalha para:
+funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, supervisor, num_dpto)
+    numero_matricula PK
+    cpf UNIQUE
+    num_dpto FK referencia departamentos
+
+Controla:
+projetos (num, nome, local, num_dpto)
+    num PK
+    nome UNIQUE
+    local UNIQUE
+    num_dpto FK referencia departamentos
+
+Supervisão:
+funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
+    numero_matricula PK
+    cpf UNIQUE
+    num_dpto FK referencia departamentos
+    numero_matricula_supervisor FK referencia funcionarios
+
+Dependente de:
+dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
+    cpf PK
+    numero_matricula_func FK referencia funcionarios
+
+### Etapa 4 - Mapeamento dos relacionamentos N:N
+Trabalha em:
+funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
+    numero_matricula_func PK / FK referencia funcionarios
+    num_proj PK / FK referencia projetos
+
+
+### Etapa 5 - Mapeamento dos atributos multivalorados
+
+localizações departamentos:
+localizacoes_departamentos (num_dpto, endereco)
+    numero_dpto PK / FK referencia departamentos
+
+
+### Resultado Final: Juntar Tudo
+
+funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
+    numero_matricula PK
+    cpf UNIQUE
+    num_dpto FK referencia departamentos
+    numero_matricula_supervisor FK referencia funcionarios
+
+departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
+    num PK
+    nome UNIQUE
+    numero_matricula_gerente FK referencia funcionarios
+
+projetos (num, nome, local, num_dpto)
+    num PK
+    nome UNIQUE
+    local UNIQUE
+    num_dpto FK referencia departamentos
+
+dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
+    cpf PK
+    numero_matricula_func FK referencia funcionarios
+
+funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
+    numero_matricula_func PK / FK referencia funcionarios
+    num_proj PK / FK referencia projetos
+
+localizacoes_departamentos (num_dpto, endereco)
+    numero_dpto PK / FK referencia departamentos
+
 &nbsp;
 
 # Caixa de sugestões

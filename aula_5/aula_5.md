@@ -33,9 +33,7 @@ Tem a linguagem de definição de dados (em inglês, DDL), que são os comandos 
 
 ## DML - Data Manipulation Language
 
-Tem a linguagem de manipulação de dados (em inglês, DML), que são os comandos utilizados para manipular os dados armazenados no banco de dados. A DML inclui os comandos SELECT, INSERT, UPDATE e DELETE.
-
-    - SELECT: Usado para recuperar dados de uma ou mais tabelas.
+Tem a linguagem de manipulação de dados (em inglês, DML), que são os comandos utilizados para manipular os dados armazenados no banco de dados. A DML inclui os comandos INSERT, UPDATE e DELETE.
     
     - INSERT: Usado para adicionar dados em uma tabela.
     
@@ -101,16 +99,29 @@ CREATE TABLE <qualificador> <schema>.<nome_da_tabela>
 #### Exemplo:
 Dado nosso modelo lógico da empresa acme, para a entidade **funcionarios**, vamos escrever o comando para criar a tabela.
 
-    funcionarios (cod, cpf, nome, endereco, salario, genero, dt_nasc, num_dpto, cod_supervisor)
-        cod PK
-        CPF UNIQUE
-        num_dpto FK departamentos
-        cod_supervisor FK funcionarios
+    funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
+        numero_matricula PK
+        cpf UNIQUE
+        num_dpto FK referencia departamentos
+        numero_matricula_supervisor FK referencia funcionarios
 
 &nbsp;
 
 ```sql
-
+CREATE TABLE IF NOT EXISTS public.funcionarios
+(
+    numero_matricula int not null,
+    cpf varchar(11) not null,
+    nome varchar(50) not null,
+    salario numeric not null,
+    genero smallint null,
+    dt_nasc date not null,
+    numero_matricula_supervisor int null,
+    --<restrições>
+    constraint funcionarios_pk primary key (numero_matricula),
+    constraint funcionarios_un unique (cpf),
+    constraint funcionarios_fk foreign key(numero_matricula_supervisor) references funcionarios(numero_matricula)
+);
 ```
 
 &nbsp;
@@ -125,13 +136,24 @@ Reparem que não criamos o atributo **num_dpto**, uma vez que para incluir ele p
 Como o departamento pede o atributo cod_gerente, da tabela de **funcionarios**, vamos deixar o campo cod_gerente como opcional.
 
 ```sql
-
+create table if not exists departamentos
+(
+	num int not null,
+	nome varchar(50) not null,
+	numero_matricula_gerente int null,
+	dt_ini_gerente date null,
+	constraint departamentos_pk primary key (num),
+	constraint departamentos_un unique (nome),
+	constraint dpto_func_fk foreign key (numero_matricula_gerente) references funcionarios (numero_matricula)
+	
+);
 ```
 
 Agora vamos alterar a tabela **funcionarios**, para incluir o atributo num_dpto. Obs: Alter table é um comando de update, não de create.
 
 ```sql
-
+alter table funcionarios add column num_dpto int null;
+alter table funcionarios add constraint func_dpto_fk foreign key (num_dpto) references departamentos (num);
 ```
 
 &nbsp;
@@ -145,7 +167,15 @@ INSERT INTO <nome_da_tabela> (<nome_das_colunas>) VALUES (<valores>)
 ```
 
 ```sql
+-- adicionamos o nome das colunas para garantir a ordem dos valores e poder omitir valores anuláveis
+insert into departamentos (num, nome) values (1, 'vendas');
 
+-- podemos não inserir as colunas, mas ai temos que inserir todos os valores incluindo os nulos
+insert into departamentos values (2, 'desenvolvimento', null, null);
+insert into departamentos (num, nome) values (3, 'financeiro');
+
+-- erro por causa da restrição unique
+insert into departamentos (num, nome) values (4, 'financeiro');
 ```
 
 &nbsp;
@@ -219,7 +249,7 @@ As restrições são iguais à do select.
 
 Reparem que foi possível fazer o update do cod_gerente mesmo sem definir a data de início do gerente. Esses dois campos deveriam ser atualizados simultaneamente.
 
-Para que isso aconteça, precisamos adicionar uma restrição na tabela departamentos, usando o comando **ALTER TABLE** conforme a sintaxe abaixo:
+Para que isso aconteça, precisamos adicionar uma restrição na tabela departamentos, usando o comando **ALTER TABLE** conforme a sintaxe abaixo (dica: check):
 
 ```sql
 ALTER TABLE <nome_da_tabela> <operacao>;
