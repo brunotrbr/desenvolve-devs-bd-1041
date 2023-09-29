@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS public.funcionarios
     numero_matricula int not null,
     cpf varchar(11) not null,
     nome varchar(50) not null,
+    endereco varchar(100) not null,
     salario numeric not null,
     genero smallint null,
     dt_nasc date not null,
@@ -291,7 +292,7 @@ Como vocês podem ter visto, nós definimos alguns tipos de dados (como characte
 
 Mas como eu sei qual é o melhor tipo pra armazenar no banco de dados? Uso integer? big int? small int? O que é o numeric, e por ai vai.
 
-Nesse caso, acessem esse endereço aqui embaixo, que vai ter os tipos suportados atualmente no postgres 15
+Nesse caso, acessem esse endereço aqui embaixo, que vai ter os tipos suportados atualmente na versão corrente do PostgreSQL.
 
 > https://www.postgresql.org/docs/current/datatype.html
 
