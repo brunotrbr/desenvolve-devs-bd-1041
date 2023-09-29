@@ -418,7 +418,7 @@ Fazer a modelagem lógica em texto da empresa ACME, com base no diagrama constru
 
 ### Modelagem conceitual
 
-<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/conteudo/der_empresa_acme.png width=600>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/empresa_acme_diagrama_completo.png width=600>
 
 &nbsp;
 
@@ -463,81 +463,82 @@ dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, cpf_func)
 
 ### Etapa 2 - Mapeamento dos relacionamentos 1:1
 
-Gerencia:
-departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
-    num PK
-    nome UNIQUE
-    numero_matricula_gerente FK referencia funcionarios
+    Gerencia:
+    departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
+        num PK
+        nome UNIQUE
+        numero_matricula_gerente FK referencia funcionarios
 
 ### Etapa 3 - Mapeamento dos relacionamentos 1:N
-Trabalha para:
-funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, supervisor, num_dpto)
-    numero_matricula PK
-    cpf UNIQUE
-    num_dpto FK referencia departamentos
+    Trabalha para:
+    funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, supervisor, num_dpto)
+        numero_matricula PK
+        cpf UNIQUE
+        num_dpto FK referencia departamentos
 
-Controla:
-projetos (num, nome, local, num_dpto)
-    num PK
-    nome UNIQUE
-    local UNIQUE
-    num_dpto FK referencia departamentos
+    Controla:
+    projetos (num, nome, local, num_dpto)
+        num PK
+        nome UNIQUE
+        local UNIQUE
+        num_dpto FK referencia departamentos
 
-Supervisão:
-funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
-    numero_matricula PK
-    cpf UNIQUE
-    num_dpto FK referencia departamentos
-    numero_matricula_supervisor FK referencia funcionarios
+    Supervisão:
+    funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
+        numero_matricula PK
+        cpf UNIQUE
+        num_dpto FK referencia departamentos
+        numero_matricula_supervisor FK referencia funcionarios
 
-Dependente de:
-dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
-    cpf PK
-    numero_matricula_func PK / FK referencia funcionarios
+    Dependente de:
+    dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
+        cpf PK
+        numero_matricula_func PK / FK referencia funcionarios
 
 ### Etapa 4 - Mapeamento dos relacionamentos N:N
-Trabalha em:
-funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
-    numero_matricula_func PK / FK referencia funcionarios
-    num_proj PK / FK referencia projetos
+
+    Trabalha em:
+    funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas, mes)
+        numero_matricula_func PK / FK referencia funcionarios
+        num_proj PK / FK referencia projetos
 
 
 ### Etapa 5 - Mapeamento dos atributos multivalorados
 
-localizações departamentos:
-localizacoes_departamentos (num_dpto, endereco)
-    numero_dpto PK / FK referencia departamentos
+    localizações departamentos:
+    localizacoes_departamentos (num_dpto, endereco)
+        numero_dpto PK / FK referencia departamentos
 
 
 ### Resultado Final: Juntar Tudo
 
-funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
-    numero_matricula PK
-    cpf UNIQUE
-    num_dpto FK referencia departamentos
-    numero_matricula_supervisor FK referencia funcionarios
+    funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
+        numero_matricula PK
+        cpf UNIQUE
+        num_dpto FK referencia departamentos
+        numero_matricula_supervisor FK referencia funcionarios
 
-departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
-    num PK
-    nome UNIQUE
-    numero_matricula_gerente FK referencia funcionarios
+    departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente, localizacoes)
+        num PK
+        nome UNIQUE
+        numero_matricula_gerente FK referencia funcionarios
 
-projetos (num, nome, local, num_dpto)
-    num PK
-    nome UNIQUE
-    local UNIQUE
-    num_dpto FK referencia departamentos
+    projetos (num, nome, local, num_dpto)
+        num PK
+        nome UNIQUE
+        local UNIQUE
+        num_dpto FK referencia departamentos
 
-dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
-    cpf PK
-    numero_matricula_func PK / FK referencia funcionarios
+    dependentes (cpf, nome, genero, dt_nasc, grau_parent_func, numero_matricula_func)
+        cpf PK
+        numero_matricula_func PK / FK referencia funcionarios
 
-funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
-    numero_matricula_func PK / FK referencia funcionarios
-    num_proj PK / FK referencia projetos
+    funcionarios_projetos (numero_matricula_func, num_proj, horas_trabalhadas_func)
+        numero_matricula_func PK / FK referencia funcionarios
+        num_proj PK / FK referencia projetos
 
-localizacoes_departamentos (num_dpto, endereco)
-    numero_dpto PK / FK referencia departamentos
+    localizacoes_departamentos (num_dpto, endereco)
+        numero_dpto PK / FK referencia departamentos
 
 &nbsp;
 
