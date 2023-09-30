@@ -24,10 +24,8 @@ Execute os seguintes inserts (e pode adicionar outros seus também, para complem
 INSERT INTO filmes (titulo, ano, diretor, genero, atores_principais, duracao_minutos, valor_ingresso)
 VALUES
     ('A Origem', 2010, 'Christopher Nolan', 'Ficção Científica', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 148, 25.50),
-    ('O Senhor dos Anéis: A Sociedade do Anel', 2001, 'Peter Jackson', 'Fantasia', 'Elijah Wood, Ian McKellen', 178, 29.99),
     ('Titanic', 1997, 'James Cameron', 'Romance', 'Leonardo DiCaprio, Kate Winslet', 195, 27.90),
     ('O Poderoso Chefão', 1972, 'Francis Ford Coppola', 'Crime', 'Marlon Brando, Al Pacino', 175, 24.99),
-    ('Star Wars: Episódio IV - Uma Nova Esperança', 1977, 'George Lucas', 'Ficção Científica', 'Mark Hamill, Harrison Ford', 121, 26.25),
     ('Star Wars: Episódio IV - Uma Nova Esperança', 1977, 'George Lucas', 'Ficção Científica', 'Mark Hamill, Harrison Ford', 121, 26.25),
     ('Star Wars: Episódio V - O Império Contra-Ataca', 1980, 'Irvin Kershner', 'Ficção Científica', 'Mark Hamill, Harrison Ford', 124, 27.50),
     ('Star Wars: Episódio VI - O Retorno de Jedi', 1983, 'Richard Marquand', 'Ficção Científica', 'Mark Hamill, Harrison Ford', 131, 28.75),
@@ -47,12 +45,11 @@ VALUES
     ('O Senhor dos Anéis: A Sociedade do Anel', 2001, 'Peter Jackson', 'Fantasia', 'Elijah Wood, Ian McKellen', 178, 29.99),
     ('O Senhor dos Anéis: As Duas Torres', 2002, 'Peter Jackson', 'Fantasia', 'Elijah Wood, Ian McKellen', 179, 28.99),
     ('O Senhor dos Anéis: O Retorno do Rei', 2003, 'Peter Jackson', 'Fantasia', 'Elijah Wood, Ian McKellen', 201, 30.50),
-    ('O Sexto Sentido', 1999, 'M. Night Shyamalan', 'Suspense', 'Bruce Willis, Haley Joel Osment', 107, 21.99),
     ('O Resgate do Soldado Ryan', 1998, 'Steven Spielberg', 'Drama', 'Tom Hanks, Matt Damon', 169, 26.75),
     ('Clube da Luta',1999,'David Fincher','Drama','Brad Pitt, Edward Norton and Helena Bonham Carter',139,75.99),
     ('Casablanca',1942,'Michael Curtiz','Drama','Humphrey Bogart, Ingrid Bergman and Paul Henreid',102,62.99),
     ('Matrix',1999,'Andy Wachowski, Lana Wachowski','Ação','Keanu Reeves, Laurence Fishburne and Carrie-Anne',136,28.99),
-    ('Seven',1995,'David Fincher','Crime','Morgan Freeman, Brad Pitt and Kevin Spacey',127,42.99)
+    ('Seven',1995,'David Fincher','Crime','Morgan Freeman, Brad Pitt and Kevin Spacey',127,42.99),
     ('Forrest Gump - O Contador de Histórias', 1994, 'Robert Zemeckis', 'Drama', 'Tom Hanks, Robin Wright', 142, 21.50),
     ('Os Bons Companheiros', 1990, 'Martin Scorsese', 'Crime', 'Robert De Niro, Ray Liotta', 146, 23.75),
     ('Jurassic Park: Parque dos Dinossauros', 1993, 'Steven Spielberg', 'Aventura', 'Sam Neill, Laura Dern', 127, 24.99),
@@ -66,7 +63,6 @@ VALUES
     ('Austin Powers: O Agente "Bond" Cama', 1999, 'Jay Roach', 'Comédia', 'Mike Myers, Elizabeth Hurley', 94, 20.25),
     ('Quem Vai Ficar com Mary?', 1998, 'Peter Farrelly, Bobby Farrelly', 'Comédia', 'Ben Stiller, Cameron Diaz', 119, 21.50),
     ('O Sexto Sentido', 1999, 'M. Night Shyamalan', 'Suspense', 'Bruce Willis, Haley Joel Osment', 107, 21.99);
-
 ```
 
 Escreva comandos SELECT para os itens abaixo:

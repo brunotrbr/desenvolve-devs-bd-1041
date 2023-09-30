@@ -177,6 +177,8 @@ insert into departamentos (num, nome) values (3, 'financeiro');
 
 -- erro por causa da restrição unique
 insert into departamentos (num, nome) values (4, 'financeiro');
+insert into departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente) values (4, 'Jurídico', null, null);
+insert into departamentos (num, nome, numero_matricula_gerente, dt_ini_gerente) values (5, 'Marketing', null, null);
 ```
 
 &nbsp;
@@ -190,7 +192,23 @@ Porque são opcionais.
 Agora vamos inserir funcionários.
 
 ```sql
-
+insert into funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto) values 
+(1, '12345678900', 'Pedro', 'Avenida um, 55', 2000, 1, '2002-02-21', null, 4),
+(2, '15846845786', 'Luciana', 'Avenida dois, 44', 3000, 2, '2002-11-06', null, 3),
+(3, '95168752178', 'Ísis', 'Avenida três, 12', 16000, 2, '1995-05-11', null, 2),
+(4, '98751264587', 'Lucas', 'Avenida quatro, 65', 2000, 1, '1957-08-11', null, 1),
+(5, '12455684543', 'Eduardo', 'Avenida cinco, 555', 5000, 1, '1981-04-29', null, 5),
+(6, '98754148689', 'Ramon', 'Avenida cinco, 15', 4800, 1, '1977-06-13', null, 5),
+(7, '54545187983', 'Luiza', 'Avenida cinco, 5', 6900, 2, '1990-02-11', null, 4),
+(8, '48451684945', 'Paula', 'Avenida cinco, 49', 16000, 2, '1995-07-27', null, 1),
+(9, '56484218546', 'Marcos', 'Avenida cinco, 18', 5810, 1, '1999-12-13', null, 1),
+(10, '78218840054', 'Francesca', 'Avenida cinco, 66', 16000, 2, '1988-03-28', null, 3),
+(11, '00584984895', 'Marcelo', 'Avenida cinco, 47', 4100, 1, '1976-01-29', null, 3),
+(12, '05808843815', 'Flávia', 'Avenida cinco, 128', 2158, 2, '1999-12-13', null, 2),
+(13, '56890548054', 'Íris', 'Avenida cinco, 654', 16000, 2, '1987-11-15', null, 4),
+(14, '05410048944', 'Ingrid', 'Avenida cinco, 123', 16000, 2, '1991-04-29', null, 5),
+(15, '65808498061', 'Daniel', 'Avenida cinco, 789', 3800, 1, '1970-02-10', null, 2)
+;
 ```
 
 &nbsp;
@@ -202,6 +220,8 @@ Sua sintaxe é:
 
 ```sql
 SELECT <nome_das_colunas> FROM <nome_da_tabela> <restrições, junções, agrupamentos, etc>;
+
+-- para retornar todas as colunas, utilizamos o asterisco "*"
 ```
 
 As restrições são impostas utilizando a cláusula **WHERE**, conforme a sintaxe abaixo:
@@ -219,7 +239,22 @@ WHERE <nome_da_coluna> <operador> <valor> AND/OR <nome_da_coluna> <operador> <va
 ### Exemplos:
 
 ```sql
-
+-- busca todos os funcionarios, e traz todas as colunas
+select * from funcionarios;
+-- busca os funcionários que recebem mais do que 4000, e traz as colunas numero_matricula, nome, salario
+select numero_matricula, nome, salario from funcionarios where salario > 4000
+-- busca os funcionários que recebem menos do que 4000, e traz as colunas numero_matricula, nome, cpf, salario
+select numero_matricula, nome, cpf, salario from funcionarios where salario < 4000
+-- busca os funcionários com cpf diferente de 98751264587, e traz todas as colunas
+select * from funcionarios where cpf <> '98751264587' -- diferente de x
+-- busca os funcionários com cpf diferente de 98751264587, e traz todas as colunas
+select * from funcionarios where cpf != '98751264587' -- diferente de x
+-- busca os funcionários com data de nascimento maior que 2000-01-01 OU menor que 1980-01-01, e traz todas as colunas
+select * from funcionarios where dt_nasc > '2000-01-01' or dt_nasc < '1980-01-01'
+-- busca os funcionários com data de nascimento maior que 2000-01-01 E menor que 1980-01-01, e traz todas as colunas
+select * from funcionarios where dt_nasc > '2000-01-01' and dt_nasc < '1980-01-01'
+-- busca os funcionários com genero igual a 1 (masculino) E salario maior que 6000, e traz todas as colunas
+select * from funcionarios where genero = 1 and salario > 6000
 ```
 
 &nbsp;
@@ -233,7 +268,7 @@ Para atualizar valores, utilizamos a sintaxe:
 -- Uma única coluna 
 UPDATE <nome_da_tabela> SET <nome_da_coluna> = <valor> <restrições>;
 
--- Uma única coluna 
+-- Várias colunas
 UPDATE <nome_da_tabela> SET <nome_da_coluna> = <valor>, <nome_da_coluna> = <valor> <restrições>;
 ```
 
@@ -243,7 +278,31 @@ As restrições são iguais à do select.
 
 ### Exemplos
 ```sql
+-- O ideal é utilizar o CPF ou o numero_matricula
+-- Caso tivesse duas Lucianas, as duas receberiam na coluna numero_matricula_supervisor o numero 10
+update funcionarios set numero_matricula_supervisor = 10 where nome = 'Luciana';
 
+-- Update correto do comando acima
+update funcionarios set numero_matricula_supervisor = 10 where numero_matricula = 2
+
+-- Para controlar as transações, usamos o begin/commit/rollback
+-- BEGIN
+-- ALTERAÇÕES DO BANCO
+-- COMMIT OU ROLLBACK, um dos dois
+
+-- -- Relação direta com as propriedades acid (atomicidade, consistencia, isolamento, durabilidade)
+-- begin; -- inicia a transação
+-- update funcionarios set numero_matricula_supervisor = null; -- update normal, insert, delete, etc (operações de modificação, o select não conta)
+-- commit; -- caso tudo esteja certo, finaliza a transação e grava todas as alterações definitivamente no banco
+-- -- OU
+-- rollback; -- caso esteja errado, cancela todas as alterações e volta o banco de dados para o último estado válido e consistente
+
+update departamentos set nome = 'Comercial' where num = 1;
+update departamentos set nome = 'Pesquisa e Desenvolvimento' where num = 2;
+update departamentos set nome = 'Financeiro' where num = 3;
+
+-- atualiza numero_matricula_gerente no departamento de numero 2
+update departamentos set numero_matricula_gerente = 3 where num = 2
 ```
 
 &nbsp;
@@ -257,15 +316,28 @@ ALTER TABLE <nome_da_tabela> <operacao>;
 ```
 
 ```sql
+-- adiciona a restrição para que ambos os campos sejam nulos ou ambos sejam preenchidos
 
+-- primeiro zeramos o numero_matricula_gerente
+update departamentos set numero_matricula_gerente = 3 where num = 2
+
+-- aplicamos a restrição
+alter table departamentos add constraint departamentos_check CHECK (
+	(numero_matricula_gerente is null and dt_ini_gerente is null)
+	or 
+	(numero_matricula_gerente is not null and dt_ini_gerente is not null)
+);
+
+-- agora não conseguimos mais fazer essa atualização.
+update departamentos set numero_matricula_gerente = null where num = 2
+
+-- precisamos alteramos as duas coisas juntas
+UPDATE departamentos SET numero_matricula_gerente = 3, dt_ini_gerente = '2004-11-15' where num = 2
+UPDATE departamentos SET numero_matricula_gerente = 8, dt_ini_gerente = '2004-11-15' where num = 1
+UPDATE departamentos SET numero_matricula_gerente = 10, dt_ini_gerente = '2004-11-15' where num = 3
+UPDATE departamentos SET numero_matricula_gerente = 13, dt_ini_gerente = '2004-11-15' where num = 4
+UPDATE departamentos SET numero_matricula_gerente = 14, dt_ini_gerente = '2004-11-15' where num = 5
 ```
-
-Agora não conseguimos mais fazer essa atualização.
-
-```sql
-
-```
-&nbsp;
 
 ## D - Delete
 É usado para remover valores no banco de dados
@@ -282,9 +354,20 @@ As restrições são iguais à do select.
 
 ### Exemplos
 ```sql
-
+delete from funcionarios where numero_matricula = 15
 ```
 
+&nbsp;
+
+Adicionar e remover colunas na tabela
+
+```sql
+-- adiciona a coluna "apagavel" na tabela de funcionarios
+alter table funcionarios add column apagavel int null;
+
+-- remover a coluna "apagavel"
+alter table funcionarios drop column apagavel;
+```
 
 &nbsp;
 
