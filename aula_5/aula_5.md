@@ -332,11 +332,11 @@ alter table departamentos add constraint departamentos_check CHECK (
 update departamentos set numero_matricula_gerente = null where num = 2
 
 -- precisamos alteramos as duas coisas juntas
-UPDATE departamentos SET numero_matricula_gerente = 3, dt_ini_gerente = '2004-11-15' where num = 2
-UPDATE departamentos SET numero_matricula_gerente = 8, dt_ini_gerente = '2004-11-15' where num = 1
-UPDATE departamentos SET numero_matricula_gerente = 10, dt_ini_gerente = '2004-11-15' where num = 3
-UPDATE departamentos SET numero_matricula_gerente = 13, dt_ini_gerente = '2004-11-15' where num = 4
-UPDATE departamentos SET numero_matricula_gerente = 14, dt_ini_gerente = '2004-11-15' where num = 5
+UPDATE departamentos SET numero_matricula_gerente = 3, dt_ini_gerente = '2004-11-15' where num = 2;
+UPDATE departamentos SET numero_matricula_gerente = 8, dt_ini_gerente = '2004-11-15' where num = 1;
+UPDATE departamentos SET numero_matricula_gerente = 10, dt_ini_gerente = '2004-11-15' where num = 3;
+UPDATE departamentos SET numero_matricula_gerente = 13, dt_ini_gerente = '2004-11-15' where num = 4;
+UPDATE departamentos SET numero_matricula_gerente = 14, dt_ini_gerente = '2004-11-15' where num = 5;
 ```
 
 ## D - Delete
@@ -354,7 +354,7 @@ As restrições são iguais à do select.
 
 ### Exemplos
 ```sql
-delete from funcionarios where numero_matricula = 15
+delete from funcionarios where numero_matricula = 15;
 ```
 
 &nbsp;

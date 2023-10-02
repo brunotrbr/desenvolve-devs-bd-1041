@@ -268,7 +268,6 @@ update funcionarios set numero_matricula_supervisor = 10 where num_dpto = 3;
 update funcionarios set numero_matricula_supervisor = null where numero_matricula = 10;
 select * from funcionarios func inner join funcionarios supervisor on func.numero_matricula_supervisor = supervisor.numero_matricula
 
-
 ```
 &nbsp;
 

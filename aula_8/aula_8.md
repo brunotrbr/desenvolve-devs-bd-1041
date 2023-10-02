@@ -1,46 +1,32 @@
-# Ordem sugerida de resolução dos exercícios
-
-Caminho:
-Material do Aluno > Turma 941 > DS-PY-006 Banco de Dados I > Tipos de bancos de dados > Exercícios
-
-1) ds-py-941-banco-de-dados-configuracao
-2) ds-py-941-banco-de-dados-modelagem
-3) ds-py-941-banco-de-dados-generalizacao
-4) ds-py-941-banco-de-dados-normalizacao
-5) ds-py-941-banco-de-dados-modelagem-logica
-6) ds-py-941-banco-de-dados-modelagem-fisica
-7) ds-py-941-banco-de-dados-sql-1
-8) ds-py-941-banco-de-dados-sql-2
-
 # Manipulando banco de dados
 
-OBS: Os valores de order_id e product_id abaixo vão variar de acordo com a inserção dos dados. Buscar dados atualizados para os exemplos.
+OBS: Os valores de order_id e product_id abaixo vão variar de acordo com a inserção dos dados. Buscar dados atualizados nos inserts realizados para estudar os exemplos.
 
 ## Plano de execução
 
-São os passos adotados pelo SGBD para localizar, buscar e devolver um ou mais registros do banco de dados. Determina os índices ou tabelas que serão acessados, o algoritmo de join para juntar os dados e a ordem que serão realizadas as operações.
+O plano de execução se refere a uma série de passos que o motor (engine) do banco de dados adota para recuperar os registros, dada uma determinada consulta. Ele determina quais indexes ou tabelas serão acessados, qual algoritmo de join será usado e a ordem em que as operações serão realizadas para executar a consulta.
 
-Podemos visualizar o plano de execução clicando em EXPLAIN no PGAdmin ou adicionando a palavra EXPLAIN no início da consulta.
+Ele é gerado pelo planejador de consultas (um subsistema do SGBD), que analisa a consulta e gera o plano otimizado para aquela consulta específica.
+
+Podemos visualizar o plano de execução clicando no botão **explain** no PGAdmin ou adicionando a cláusula **EXPLAIN** no início da consulta.
 
 ```sql
-EXPLAIN SELECT * FROM orders WHERE order_date = '2017-08-11';
+EXPLAIN SELECT * FROM orders WHERE order_date = '2017-08-011';
 
-EXPLAIN SELECT * FROM order_items FROM order_id = 1 AND product_id = 37
+EXPLAIN SELECT * FROM order_items FROM order_id = 1 AND product_id = 1
 ```
 
-&nbsp;
+Ao utilizar o EXPLAIN, conseguimos observar o plano de execução para a consulta, contendo informações sobre cada passo do plano, incluindo a ordem em que as operações serão realizadas, o custo estimado de cada operação e o número de linhas que serão retornados a cada passo.
 
-A partir do plano de execução conseguimos identificar eventuais gargalos como:
-- full table scans
-- joins custosos
-  
-e atuar para melhorar esses pontos:
-- Criando novos índices
-- reestruturando tabelas
+Podemos utilizar o plano de execução para entender como a consulta será realizada, e identificar operações que são particularmente caras para o BD, como full table scans ou determinados joins por exemplo.
+
+A partir dessa análise (considerando os exemplos acima), podemos criar indices para melhorar a performance ou reestruturar a tabela, visando reduzir o número de joins.
+
+Reparem que para cada uma das consultas acima, ocorreu um plano de execução diferente:
 
 &nbsp;
 
-Observando as consultas acima, podemos ver que foi realizado um **sequential scan** na tabela de pedidos, enquanto na consulta 2 foi realizado um **index Scan**.
+Na consulta 1, foi realizado o que chamamos de **scan sequencial** na tabela de pedidos, enquanto na consulta 2 foi realizado o chamado **Index Scan**.
 
 &nbsp;
 
@@ -51,7 +37,7 @@ Observando as consultas acima, podemos ver que foi realizado um **sequential sca
 O SGBD percorre todo o disco onde os dados estão armazenados, em busca das linhas da tabela.
 
 Na imagem abaixo:
-<img src=./imagens/b_plus_tree.png width=500>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-8/conteudo/b_plus_tree.png width=500>
 
 &nbsp;
 
@@ -68,7 +54,7 @@ EXPLAIN SELECT * FROM orders WHERE order_date = '2017-08-011';
 O SGBD percorre exatamente os indices que precisa até localizar as linhas que devem ser retornadas. Ao identificar, percorre as tabelas para buscar todos os dados.
 
 Na imagem abaixo:
-<img src=./imagens/b_plus_tree.png width=500>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-8/conteudo/b_plus_tree.png width=500>
 
 &nbsp;
 
@@ -76,7 +62,7 @@ Ao procurar pelo registro 0007, o SGBD vai percorrer 0005 > 0007 > 0008/0009 > 0
 
 ```sql
 -- Exemplo
-EXPLAIN SELECT * FROM order_items WHERE order_id = 1 AND product_id = 37
+EXPLAIN SELECT * FROM order_items WHERE order_id = 1 AND product_id = 1
 ```
 
 &nbsp;
@@ -97,7 +83,7 @@ SELECT * from orders where order_id = 1
 #### Bitmap Index Scan / Bitmap Heap Scan / Recheck Cond
 É como um meio termo entre um scan sequencial e um index scan. Semelhante ao index scan ele busca os índices para determinar exatamente quais dados são necessários, mas realiza a leitura de uma grande quantidade de itens como o scan sequencial.
 
-<img src=./imagens/bitmap_scan.png width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-8/conteudo/bitmap_scan.png width=400>
 
 &nbsp;
 
@@ -107,25 +93,18 @@ Normalmente ocorre quando a consulta é pequena demais para um sequential scan m
 -- Exemplo
 SELECT * FROM orders WHERE order_id BETWEEN 1000 AND 2000
 
-SELECT order_id, total_amount FROM orders WHERE order_id BETWEEN 1000 AND 4000
-
-SELECT order_id FROM orders WHERE order_id BETWEEN 1000 AND 3000
---Obs: modifiquem o range de dados do order_id para verificar qual scan está sendo realizado
+--Obs: Podem modificar o range de dados do order_id para ver qual scan está sendo realizado
 ```
 
 &nbsp;
 
 ### Joins
 
-Operação de junção de tabelas para retornar os dados das consultas que envolvem 2 ou mais tabelas.
-
-- Processam somente 2 tabelas por vez.
-- Caso tenha mais tabelas, realiza o join de duas tabelas, criando uma tabela intermediária. Depois realiza o join da tabela intermediária com a próxima, gerando outra intermediária. Continua nesse processo até não existirem mais tabelas para serem unidas.
+Normalmente, operações **joins** processam somente duas tabelas por vez. Caso a consulta tenha mais do que dois **joins**, elas são executadas sequencialmente: primeiro duas tabelas, depois o resultado intermediário (tabela intermediária) com a próxima tabela, e assim vai até acabar as tabelas.
 
 &nbsp;
 
-Existem 3 tipos de joins
-
+Podem ser de 3 tipos:
 - Nested Loops
 - Hash Join / Hash
 - Merge Join
@@ -135,45 +114,32 @@ Existem 3 tipos de joins
 &nbsp;
 
 #### Nested Loops
-- Obtém as linhas da tabela 1.
-- Para cada linha da tabela 1, tenta realizar o match dos dados com cada linha da tabela dois.
+Realiza o **Join** de duas tabelas obtendo as linhas da tabela um e percorrendo a tabela dois linha por linha, realizando o match entre elas.
 
 &nbsp;
 
-Exemplo de alto nível:
-```python
-for linha_tab_1 in tabela_1:
-    for linha_tab_2 in tabela_2:
-        match dos campos
-```
-
-&nbsp;
-
-Exemplo de consultas que realiza nested loop:
+Exemplo de consultas que realizam nested loops:
 ```sql
 -- nested loop com 2 tabelas
 SELECT * FROM order_items oi 
 INNER JOIN products pr on oi.product_id = pr.product_id
 INNER JOIN orders od on oi.order_id = od.order_id
-WHERE oi.order_id in (1,2,3) and oi.product_id in (37,119,123, 291)
+WHERE oi.order_id in (1,2,3) and oi.product_id in (1,2,3)
 
 -- nested loop com 3 tabelas
 SELECT * FROM order_items oi 
 INNER JOIN products pr ON oi.product_id = pr.product_id
 INNER JOIN orders od ON oi.order_id = od.order_id
 INNER JOIN customers cs ON cs.customer_id = od.customer_id
-WHERE oi.order_id IN (1,2,3) and oi.product_id in (37,119,123, 291)
+WHERE oi.order_id IN (1,2,3) AND oi.product_id IN (1,2,3)
 ```
 
 &nbsp;
 
 #### Hash Join / Hash
-- Carrega os registros candidatos da tabela 1 em uma tabela de hash (hash table).
-- Para cada linha da tabela 2, tenta dar match com os registros da tabela de hash
+O hash join carrega os registros candidatos da tabela A em um *hash table* (marcado com Hash no plano de execução). Para cada linha da tabela B, a tabela de Hash é checada buscando o match entre os registros.
 
-<img src=./imagens/hash_table.png width=400 style="background:white">
-
-Tabela de hash
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-8/conteudo/hash_table.png width=400 style="background:white">
 
 &nbsp;
 
@@ -185,31 +151,27 @@ INNER JOIN order_items oi ON o.order_id = oi.order_id
 INNER JOIN products p ON oi.product_id = p.product_id
 ```
 
-&nbsp;
-
 #### Merge Join
 Combina duas tabelas. Como pré-requisito, elas precisam estar previamente ordenadas (passo realizado pelo SGBD).
 
-
-<img src=./imagens/merge_join.gif width=400>
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-8/conteudo/merge_join.gif width=400>
 
 &nbsp;
 
 Exemplo de consulta que realiza merge join:
 ```sql
 -- merge join
--- Não consegui criar um exemplo.
+SELECT * FROM order_items oi 
+INNER JOIN products pr on oi.product_id = pr.product_id
+WHERE oi.order_id in (1,2,3) and oi.product_id in (1,2,3)
 ```
 
 &nbsp;
 
 ### Sorting and Grouping
 
-&nbsp;
-
 #### Sort / Sort Key
-- Ordena o conjunto de colunas especificados na cláusula **order by**.
-- Requer grande quantidade de memória para materializar o resultado intermediário.
+Ordena o conjunto de colunas especificados na cláusula **order by**. A operação de sort necessidade de uma grande quantidade de memória para materializar o resultado intermediário.
 
 &nbsp;
 
@@ -243,15 +205,15 @@ ORDER BY od.total_amount desc
 
 ## Index
 
-- Localizar mais rapidamente os dados inseridos no banco de dados
-- Apontamento direto para onde o registro está salvo
-  
+O index, ou índice, é um recurso utilizado pelos SGBDs para conseguir localizar mais rapidamente os dados inseridos no banco de dados.
+
+Ele funciona como um apontamento direto para onde o registro está salvo, de forma que a consulta pode ser realizada mais rapidamente.
+
 &nbsp;
 
-Exemplo:
+Observem esse exemplo. Vamos criar uma tabela que armazena um id serial e uma data, e depois vamos inserir 400.000.000 de registros, sendo 100.000.000 para cada data em 22/04/2023, 22/03/2023, 22/02/2022 e 22/01/2022
 
-    Vamos criar uma tabela que armazena um id serial e uma data, e depois vamos inserir 400.000.000 de registros, sendo 100.000.000 para cada data em 22/04/2023, 22/03/2023, 22/02/2022 e 22/01/2022
-
+&nbsp;
 
 ```sql
 CREATE TABLE teste_index (
@@ -280,14 +242,14 @@ END $$;
 -- Se dividir em 4 inserts diferentes, rodando simultaneamente, cada um levou +- 40 minutos.
 
 -- Conferência de valores
-SELECT COUNT(1) FROM teste_index;
+SELECT COUNT(1) FROM teste_index
 
-SELECT DISTINCT(teste_date), COUNT(teste_date) FROM teste_index GROUP BY teste_date;
+SELECT DISTINCT(teste_date), COUNT(teste_date) FROM teste_index GROUP BY teste_date
 ```
 
 &nbsp;
 
-### busca com index x busca sem index
+Agora vamos comparar a busca com e sem index
 
 ```sql
 -- Busca sem índice, fazendo sequence scan
@@ -319,12 +281,8 @@ SELECT * FROM teste_index WHERE teste_date = '2023-04-22'
 ## Views e Materialized Views
 
 ### Views
-- Tabela virtual que não armazena dados, e sim uma "visão" dos dados armazenados em outras tabelas.
-- É uma consulta SQL armazenada no banco de dados, para ser usada em consultas subsequentes.
 
-> IMPORTANTE:
-> Os dados de product id são referentes ao insert que fizemos em aula. Para que os comandos funcionem, devem pesquisar os product_ids dos inserts no próprio banco de vocês. Ex: no do professor o product_id era 37, no meu vai ser xxxx.
-
+Em PostgreSQL, uma **view** é uma tabela virtual que não armazena nenhum dado ou informação, e sim uma "visão" para dados armazenados em outras tabelas. Essencialmente, uma view é uma consulta SQL que é armazenada em um banco de dados e pode ser usada como uma tabela em consultas subsequentes.
 
 &nbsp;
 
@@ -337,7 +295,6 @@ INNER JOIN orders od on od.customer_id = cs.customer_id
 INNER JOIN order_items oi on oi.order_id = od.order_id
 INNER JOIN products pr on pr.product_id = oi.product_id
 ORDER BY od.total_amount desc
--- Query complete 00:00:00.529
 ```
 
 &nbsp;
@@ -369,23 +326,21 @@ ORDER BY od.total_amount desc;
 
 &nbsp;
 
-Para utilizar a view basta utilizar o comando select com o nome da view
+Depois, para utilizar a view basta utilizar o comando select com o nome da view
 
 ```sql
 SELECT * FROM customer_order_product_view;
--- Query complete 00:00:00.330
 ```
 
 &nbsp;
 
 ### Materialized view
-- Cópia física do resultado de uma consulta que é armazenada no banco de dados como uma tabela
-- Pode ser indexada e/ou consultada como qualquer outra tabela
-- Útil para consultas complexas frequentemente executadas e que requerem um tempo significativo de processamento.
+Uma **materialized view** é uma cópia física do resultado de uma consulta que é armazenada no banco de dados como uma tabela. Diferente da view, a view materializada pode ser indexada e consultada como qualquer outra tabela. Ela é particularmente útil quando temos uma query muito complexa que é frequentemente executada e requer um tempo significativo de processamento.
 
 &nbsp;
 
 Dada a consulta SQL abaixo:
+
 ```sql
 SELECT cs.customer_id, cs.first_name, cs.last_name, cs.email, cs.address, cs.city, cs.state, cs.country, od.order_id, od.order_date, od.total_amount, oi.quantity, oi.price, pr.product_id, pr.product_name, pr.description, pr.price AS product_price, pr.category_id
 FROM customers cs
@@ -406,6 +361,8 @@ INNER JOIN orders od on od.customer_id = cs.customer_id
 INNER JOIN order_items oi on oi.order_id = od.order_id
 INNER JOIN products pr on pr.product_id = oi.product_id
 ORDER BY od.total_amount desc;
+
+SELECT DISTINCT(teste_date), COUNT(teste_date) FROM teste_index GROUP BY teste_date
 ```
 
 &nbsp;
@@ -418,105 +375,58 @@ SELECT * FROM customer_order_product_mat_view;
 
 &nbsp;
 
-**Importante:**
-
-> Materialized view é uma tabela física, e por isso os dados podem ficar desatualizados.
->
-> É necessário reatualizar ela (refresh)
-
-&nbsp;
+Como a materialized view é uma tabela física, pode acontecer de os dados ficarem desatualizados. Por exemplo, depois de fechado e registrado o pedido, foi incluso mais um ítem, alterando o valor total do pedido.
 
 ```sql
--- Ver quantidades antes de inserir
+-- Ver quantidades antes de inserir, para poder comparar e ver se de fato vai aumentar
 -- Update da tabela order_items
-UPDATE order_items SET quantity=10 WHERE order_id = 1 AND product_id = 37
+UPDATE order_items SET quantity=10 WHERE order_id = 1 AND product_id = 1
 
--- Adicionar a diferença no preço 
+-- Adicionar a diferença no preço (diff_qtde * (select price.....))
 -- Update da tabela orders
-UPDATE orders SET total_amount = (SELECT total_amount FROM orders WHERE order_id = 1) + (SELECT price FROM products WHERE product_id = 37)
+UPDATE orders SET total_amount = (SELECT total_amount FROM orders WHERE order_id = 1) + (SELECT price FROM products WHERE product_id = 1)
 ```
 
-&nbsp;
-
-Se fizermos a consulta na tabela e na materialized view, teremos valores diferentes para a coluna total_amount e a quantidade do produto 37
+Se fizermos a consulta na tabela e na materialized view, teremos valores diferentes para a coluna total_amount e a quantidade do produto 1
 
 ```sql
 -- select na tabela orders
 SELECT * FROM orders WHERE order_id = 1
 --"order_id"	"customer_id"	"order_date"	"total_amount"
---1	          37	          "2017-08-11"	108934.14
+--1	            1	            "2017-08-11"	108934.14
 
 -- select na materialized view
-SELECT order_id, product_id, order_date, total_amount FROM mat_customer_order_product_view WHERE order_id = 1 and product_id = 37
+SELECT order_id, product_id, order_date, total_amount FROM customer_order_product_mat_view WHERE order_id = 1 and product_id = 1
 --"order_id"	"product_id"	"order_date"	"total_amount"
---1	          37            "2017-08-11"	106529.00
+--1	            1	            "2017-08-11"	106529.00
 
 -- select na tabela order_items
-SELECT * FROM order_items WHERE order_id = 1 AND product_id = 37
+SELECT * FROM order_items WHERE order_id = 1 AND product_id = 1
 --"order_id"	"product_id"	"quantity"	"price"
---1	          37            10	        2405.14
+--1	            1	            10	        2405.14
 
 -- select na materialized view
-SELECT order_id, product_id, quantity, price FROM mat_customer_order_product_view WHERE order_id = 1 AND product_id = 37
+SELECT order_id, product_id, quantity, price FROM customer_order_product_mat_view WHERE order_id = 1 AND product_id = 1
 --"order_id"	"product_id"	"quantity"	"price"
---1	          37            9	        2405.14
+--1	            1	            9	        2405.14
 ```
 
 &nbsp;
 
-Fazendo refresh dos dados na materialized view
-
+Neste caso, é necessário fazer o refresh dos dados, utilizando o comando abaixo. Com isso, a materialized view passa a estar atualizada.
 ```sql
 -- refresh
-REFRESH MATERIALIZED VIEW mat_customer_order_product_view;
+REFRESH MATERIALIZED VIEW customer_order_product_mat_view;
 
 -- select na materialized view
-SELECT order_id, product_id, order_date, total_amount FROM mat_customer_order_product_view WHERE order_id = 1 and product_id = 37
+SELECT order_id, product_id, order_date, total_amount FROM customer_order_product_mat_view WHERE order_id = 1 and product_id = 1
 --"order_id"	"customer_id"	"order_date"	"total_amount"
---1	          37	           "2017-08-11"	108934.14
+--1	            1	            "2017-08-11"	108934.14
 
 -- select na materialized view
-SELECT order_id, product_id, quantity, price FROM mat_customer_order_product_view WHERE order_id = 1 AND product_id = 37
+SELECT order_id, product_id, quantity, price FROM customer_order_product_mat_view WHERE order_id = 1 AND product_id = 1
 --"order_id"	"product_id"	"quantity"	"price"
---1	          37            10	        2405.14
+--1	            1	            10	        2405.14
 ```
 
-
 &nbsp;
-
-### Bonus: Criação de trigger para atualizar materialized view
-
-#### Trigger
-
-A cada ação realizada, dispara um evento. ex: ao inserir um pedido, modifica o campo last_order_date na tabela de customers.
-
-#### Stored procedures
-
-Rotinas e processos que podem ser chamados a qualquer momento no banco de dados, dentro ou fora de triggers, etc.
-
-&nbsp;
-
-Para criar uma função e uma trigger, siga os passos abaixo:
-
-```sql
--- Os comandos abaixo sãu utilizados para criar uma função chamada update_materialized_view(), que é a responsável por fazer o refresh na materialized view. 
-CREATE OR REPLACE FUNCTION update_materialized_view() RETURNS TRIGGER AS $$
-BEGIN
-    REFRESH MATERIALIZED VIEW mat_customer_order_product_view;
-	RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- A trigger dessa função é a cada insert na tabela order_items
-CREATE TRIGGER update_mat_view_order_item
-AFTER INSERT ON order_items
-FOR EACH ROW
-EXECUTE FUNCTION update_materialized_view();
-
--- Aqui são códigos de teste para ver se a função/trigger estão funcionando corretamente.
-INSERT INTO orders VALUES (9997,3,TO_DATE('15-03-2023','DD-MM-YYYY'),20000.00);
-select * from orders where order_id = 9997
-select * from order_items where order_id = 9997
-select * from customers where customer_id = 3
-SELECT * FROM mat_customer_order_product_view where order_id = 9997
-```
