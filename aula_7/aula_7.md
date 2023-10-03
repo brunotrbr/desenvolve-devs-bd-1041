@@ -9,11 +9,12 @@ Nestes casos, utilizamos o que chamamos de funções agregadoras. Elas são cham
 Para filtrar valores agregados, utilizamos a cláusula HAVING, ao invés da cláusula WHERE. O WHERE realiza os filtros **antes** de serem realizados os agrupamentos, e o HAVING **após** os dados terem sido agrupados.
 
 ```sql
--- quero buscar todos os produtos cuja soma nos pedidos seja superior a 350 (vendeu mais de 350 unidades)
+-- quero buscar todos os produtos cuja soma dos pedidos seja superior a 350 (vendeu mais de 350 unidades)
 SELECT product_id, SUM(quantity) AS total_quantity
   FROM order_items
-  GROUP BY product_id
-  HAVING SUM(quantity) > 350
+  group by product_id -- agrupa os produtos pelo id do produto
+  having sum(quantity) > 350 -- filtra a soma das quantidades, para que apareçam somente as maiores de 350
+  order by total_quantity desc -- ordena a lista
 
 
 -- quero buscar todos os produtos cuja soma nos pedidos seja superior a 350 e o id do produto seja 249
@@ -23,10 +24,17 @@ SELECT product_id, SUM(quantity) AS total_quantity
   HAVING SUM(quantity) > 350
 
 
+-- O SQL permite buscar uma coluna simples no having
 SELECT product_id, SUM(quantity) AS total_quantity
   FROM order_items
   GROUP BY product_id
-  HAVING product_id = 249
+  HAVING product_id = 70
+
+-- Mas não permite o oposto, uma agregação no where
+SELECT product_id, SUM(quantity) AS total_quantity
+  FROM order_items
+  where SUM(quantity)
+  GROUP BY product_id
 ```
 
 &nbsp;
