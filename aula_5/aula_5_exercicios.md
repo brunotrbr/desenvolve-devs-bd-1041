@@ -66,6 +66,8 @@ Remover 2 registros
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/exercicios/exercicio_4_diagrama_our_note.png width=400>
 
+&nbsp;
+
 ### Modelagem Física:
 
 ```sql
