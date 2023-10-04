@@ -24,7 +24,7 @@ Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento
 
 &nbsp;
 
-### Modelagem conceitual:
+### Modelagem lógica:
 
 &nbsp;
 
@@ -55,7 +55,7 @@ Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento
 
 &nbsp;
 
-### Modelagem conceitual:
+### Modelagem lógica:
 
 &nbsp;
 
@@ -98,6 +98,6 @@ Fazer a modelagem lógica em texto, a partir do Diagrama Entidade Relacionamento
 
 &nbsp;
 
-### Modelagem conceitual:
+### Modelagem lógica:
 
 &nbsp;

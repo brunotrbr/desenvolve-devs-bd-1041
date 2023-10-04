@@ -64,8 +64,62 @@ Remover 2 registros
 
 ### Modelagem lógica:
 
-&nbsp;
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/exercicios/exercicio_4_diagrama_our_note.png width=400>
 
+### Modelagem Física:
+
+```sql
+-- Modelo criado conforme opção 1 da modelagem lógica
+create table anotacoes (
+	id_anotacao numeric(7) not null,
+	titulo varchar(100) not null,
+	texto text,
+	dt_criacao datetime not null,
+	dt_alteracao datetime,
+	id_lembrete numeric(7)
+	login varchar(30) not null,
+	constraint pk_anotacoes primary key (id_anotacao)
+)
+
+create table lembretes (
+	id_lembrete numeric(7) not null,
+	antecedencia numeric(5) not null,
+	sinal_visual char(1),
+	sinal_sonoro char(1),
+	datahora datetime not null,
+	login varchar(30) not null,
+	constraint pk_lembretes primary key (id_lembrete)
+)
+
+create table rotulos (
+	id_rotulo numeric(3) not null,
+	nome varchar(30) not null,
+	cor char(6) not null,
+	login varchar(30) not null,
+	constraint pk_rotulos primary key (id_rotulo)
+)
+
+create table usuarios (
+	login varchar(30) not null,
+	senha varchar(32) not null,
+	constraint pk_usuarios primary key (login)
+)
+
+create table rotulos_anotacoes (
+	id_rotulo numeric(3),
+	id_anotacao numeric(7),
+	constraint pk_rotulos_anotacoes (id_rotulo, id_anotacao)
+)
+
+alter table anotacoes add constraint fk_usu_anot foreign key(login) references usuarios (login);
+alter table lembretes add constraint fk_anot_lembr foreign key(id_anotacao) references anotacoes (id_anotacao);
+alter table lembretes add constraint fk_usu_lembr foreign key(login) references usuarios (login);
+alter table rotulos add constraint fk_usu_rot foreign key(login) references usuarios (login);
+alter table rotulos_anotacoes add constraint fk_rot_rotanot foreign key(id_rotulo) references rotulos (id_rotulo);
+alter table rotulos_anotacoes add constraint fk_anot_rotanot foreign key(id_anotacao) references anotacoes (id_anotacao);
+```
+
+&nbsp;
 
 ## Exercício 3
 
